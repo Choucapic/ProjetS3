@@ -1,0 +1,13 @@
+.userView {
+  background-image: url("../img/betheny.jpg");
+  background-size: contain;
+  height: 170px;
+}
+
+.menu {
+  margin-top: 0px;
+}
+
+main {
+  padding-left: 300px;
+}
