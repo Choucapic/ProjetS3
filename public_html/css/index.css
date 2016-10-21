@@ -6,8 +6,16 @@
 
 .menu {
   margin-top: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-main {
-  padding-left: 300px;
+.menu-button {
+    margin-top: 10px;
+}
+
+@media (min-width: 992px) {
+    main {
+        padding-left: 300px;
+    }
 }
