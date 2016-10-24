@@ -1,7 +1,10 @@
 .userView {
-  background-image: url("../img/betheny.jpg");
-  background-size: contain;
+  padding: 0px !important;
   height: 170px;
+}
+
+.userView > a {
+  padding: 0px !important;
 }
 
 .menu {
@@ -14,8 +17,32 @@
     margin-top: 10px;
 }
 
+   /* icon prefix focus color */
+.input-field .prefix.active {
+  color: rgb(17, 91, 166);
+}
+
+/* Quand c'est petit */
+@media (max-width: 600px) {
+    .btn-auth {
+        text-align: center;
+    }
+}
+
+/* Quand c'est moyen */
+@media (min-width: 600px) and (max-width: 992px) {
+  .btn-auth {
+    text-align: right;
+  }
+}
+
+/* Quand c'est grand */
 @media (min-width: 992px) {
     main {
         padding-left: 300px;
+    }
+
+    .btn-auth {
+      text-align: right;
     }
 }
