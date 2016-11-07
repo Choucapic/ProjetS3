@@ -6,37 +6,25 @@ class Benevole extends Membre{
   * Le numéro de téléphone du Bénévole
   * @var int
   **/
-  protected $_numTel;
+  protected $numTel;
 
   /**
   * L'adresse du Bénévole
   * @var String
   **/
-  protected $_adresse;
+  protected $adresse;
 
   /**
   * Le code postal du Bénévole
   * @var int
   **/
-  protected $_codePostal;
+  protected $cp;
 
   /**
   * La ville du Bénévole
   * @var String
   **/
-  protected $_ville;
-
-  /**
-  * Le Bénévole est un organisateur ou non
-  * @var boolean
-  **/
-  protected $_organisateur;
-
-  /**
-  * Le mot de passe du Bénévole
-  * @var String
-  **/
-  protected $_password;
+  protected $ville;
 
   /**
   * Constructeur du Bénévole
@@ -48,7 +36,7 @@ class Benevole extends Membre{
   * @return int
   **/
   public function getNumTel(){
-    return $this->_numTel;
+    return $this->numTel;
   }
 
   /**
@@ -56,7 +44,15 @@ class Benevole extends Membre{
   * @return String
   **/
   public function getAdresse(){
-    return $this->_adresse;
+    return $this->adresse;
+  }
+
+  /**
+  * Accesseur sur le code postal du Bénévole
+  * @return String
+  **/
+  public function getAdresse(){
+    return $this->codePostal;
   }
 
   /**
@@ -64,7 +60,7 @@ class Benevole extends Membre{
   * @return String
   **/
   public function getVille(){
-    return $this->_ville;
+    return $this->ville;
   }
 
   /**
@@ -72,7 +68,7 @@ class Benevole extends Membre{
   * @return boolean
   **/
   public function getOrganisateur(){
-    return $this->_organisateur;
+    return $this->organisateur;
   }
 
   /**
@@ -80,7 +76,55 @@ class Benevole extends Membre{
   * @return String
   **/
   public function getPassword(){
-    return $this->_password;
+    return $this->password;
   }
+
+  public static function createFromId($idMembre){
+     $stmt = myPDO::getInstance()->prepare(<<<SQL
+            SELECT idMembre, nom, prnm, mail, numTel, adresse, cp, ville
+            FROM Membre
+            WHERE idMembre = ?
+              AND Type = 'Benevole'
+SQL
+        ) ;
+        $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+        $stmt->execute(array($idMembre)) ;
+        if (($object = $stmt->fetch()) !== false) {
+            return $object ;
+        }
+        throw new Exception('Ligne non trouvée !') ;
+    }
+  }
+
+  public static function createEmpty(){
+    return new self();
+  }
+
+  public static function createFromArray(array $array){
+    $self = new self() ;
+    foreach ($self as $propriete => $value) {
+      if (isset($array[ $propriete ])) {
+        $self->$propriete = $array[ $propriete ] ;
+      }
+    }
+    return $self ;
+  }
+
+  public function save(){
+    $stmt = myPDO::getInstance()->prepare(<<<SQL
+                REPLACE INTO `Membre`(`idMembre`, `nom`, `prnm`, `mail`, `numTel`, `adresse`, `cp`, `ville`)
+                               VALUES (:idMembre, :nom, :prnm, :mail, :numTel, :adresse, :cp, :ville)
+SQL
+);
+    $stmt->execute(array(':idMembre' => $this ->idMembre,
+                         ':nom' => $this ->nom,
+                         ':prnm' => $this ->prnm,
+                         ':mail' => $this ->mail,
+                         ':numTel' => $this ->numTel,
+                         ':adresse' => $this ->adresse,
+                         ':cp' => $this ->cp,
+                         ':ville' => $this ->ville;
+            $this->idMembre = myPDO::getInstance()->lastInsertId() ;
+    }
 }
 ?>

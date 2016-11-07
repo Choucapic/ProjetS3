@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include_once 'class/webpage.class.php';
 
 $page = new WebPage('Amicale des jeunes de Betheny');

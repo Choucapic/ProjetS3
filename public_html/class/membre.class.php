@@ -6,32 +6,32 @@ abstract class Membre{
   * L'id du Membre
   * @var int
   **/
-  abstract protected $_idMembre;
+  abstract protected $idMembre;
 
   /**
   * Le nom du Membre
   * @var
   **/
-  abstract protected $_nom;
+  abstract protected $nom;
 
   /**
   * Le prénom du Membre
   * @var String
   **/
-  abstract protected $_prnm;
+  abstract protected $prnm;
 
   /**
   * Le mail du Membre
   * @var String
   **/
-  abstract protected $_mail;
+  abstract protected $mail;
 
   /**
   * Accesseur de l'id du Membre
   * @return int
   **/
   public function getIdMembre(){
-    return $this->_idMembre;
+    return $this->idMembre;
   }
 
   /**
@@ -39,7 +39,7 @@ abstract class Membre{
   * @return String
   **/
   public function getNom(){
-    return $this->_nom;
+    return $this->nom;
   }
 
   /**
@@ -47,7 +47,7 @@ abstract class Membre{
   * @return String
   **/
   public function getPrenom(){
-    return $this->_prnm;
+    return $this->prnm;
   }
 
   /**
@@ -55,7 +55,7 @@ abstract class Membre{
   * @return String 
   **/
   public function getMail(){
-    return $this->_mail;
+    return $this->mail;
   }
 }
 ?>
