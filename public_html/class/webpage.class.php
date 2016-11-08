@@ -161,6 +161,9 @@ HTML
             throw new Exception(__CLASS__ . ": title not set") ;
         }
 
+$urlConnect = isset($_SESSION['login']) ? '<li><a href="disconnect.php"><i class="fa fa-plug" aria-hidden="true"></i>Se déconnecter</a></li>' : '<li><a href="auth.php"><i class="material-icons">error_outline</i>Se connecter</a></li> ';
+
+
         return <<<HTML
 <!doctype html>
 <html lang="fr">
@@ -183,7 +186,7 @@ HTML
         <ul class="side-nav fixed blue darken-3" id="slide-out">
         <li><div class="userView"><a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny" width="300px"></img></a></div></li>
             <li><a href="index.php"><i class="material-icons">language</i>Accueil</a></li>
-            <li><a href="auth.php"><i class="material-icons">error_outline</i>Se connecter</a></li>
+            {$urlConnect}
             <li><div class="divider"></div></li>
             <li><a class="subheader center">Subheader</a></li>
             <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>

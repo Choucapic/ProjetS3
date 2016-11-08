@@ -6,7 +6,11 @@ include_once 'class/webpage.class.php';
 
 $page = new WebPage('Connect');
 
-if (isset($_POST['submit'])) {
+if (isset($_SESSION['login'])) {
+  $url="index";
+  $message="Vous êtes déjà connecté";
+  $time=3;
+} else if (isset($_POST['submit'])) {
 
   $login  = (isset($_POST['login'])) ? htmlentities(trim($_POST['login'])) : '';
   $password   = (isset($_POST['password'])) ? sha1(htmlentities(trim($_POST['password'])))   : '';
@@ -31,15 +35,18 @@ SQL
     $_SESSION['type'] = $result['type'];
 
     $url="index";
-    $message="Vous êtes bien connecté, vous allez être redirigé vers l'accueil";
+    $message='<i class="fa fa-check fa-5x green-text" aria-hidden="true"></i> <br> Vous êtes bien connecté, vous allez être redirigé vers l\'accueil';
+    $time=3;
     } else {
       $url="auth";
-      $message = "Problème de mail ou de mot de passe <br> Vous allez être redirigé automatiquement";
+      $message = '<i class="fa fa-times fa-5x red-text" aria-hidden="true"></i> <br> Mail ou de mot de passe incorrect <br> Vous allez être redirigé automatiquement';
+      $time=5;
     }
 
   } else {
     $url="auth";
-    $message = "Mail ou mot de passe vide <br> Vous allez être redirigé automatiquement";
+    $message = '<i class="fa fa-times fa-5x red-text" aria-hidden="true"></i> <br> Mail ou mot de passe vide <br> Vous allez être redirigé automatiquement';
+    $time=5;
   }
 }
 $page->appendContent(<<<HTML
@@ -49,6 +56,6 @@ $page->appendContent(<<<HTML
 HTML
 );
 
-header( "refresh:5; url=" . $url . ".php" );
+header( "refresh:".$time."; url=" . $url . ".php" );
 
 echo $page->toHTML();

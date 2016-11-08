@@ -6,6 +6,18 @@ include_once 'class/webpage.class.php';
 
 $page = new WebPage('Authentification');
 
+if (isset($_SESSION['login'])) {
+
+  $page->appendContent(<<<HTML
+  <div class="container">
+    <h5 class="center">Vous êtes déjà connecté</h5>
+  </div>
+HTML
+);
+
+header( "refresh:3; url=index.php" );
+
+} else {
     $page->appendContent(<<<HTML
     <div class="container">
     <form id="connect" method="post" name="authentification" action="connect.php" class="col s12">
@@ -31,5 +43,6 @@ $page = new WebPage('Authentification');
      </div>
 HTML
 );
+}
 
 echo $page->toHTML();
