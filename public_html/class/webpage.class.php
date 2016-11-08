@@ -161,7 +161,65 @@ HTML
             throw new Exception(__CLASS__ . ": title not set") ;
         }
 
-$urlConnect = isset($_SESSION['login']) ? '<li><a href="disconnect.php"><i class="fa fa-plug" aria-hidden="true"></i>Se déconnecter</a></li>' : '<li><a href="auth.php"><i class="material-icons">error_outline</i>Se connecter</a></li> ';
+        $isConnected = isset($_SESSION['login']);
+
+        if ($isConnected) {
+          // Menu déconnexion
+          $urlConnect = '<li><a href="disconnect.php" class="waves-effect"><i class="fa fa-toggle-on fa-2x green-text" aria-hidden="true"></i>Se déconnecter</a></li>';
+
+          // Récupération du nom et du type d'utilisateur pour les incorporer à la vignette
+          $userName = $_SESSION['nom'] . " " . $_SESSION['prenom'];
+          $userType = $_SESSION['type'] == 'Benevole' ? 'Bénévole' : $_SESSION['type'];
+
+          // Switch permettant de modifier le menu en fonction du type d'utilisateur
+          switch ($userType) {
+            case 'Organisateur':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Organisateur</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Organisateur</a></li>
+            ';
+            break;
+            case 'Arbitre':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Arbitre</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Arbitre</a></li>
+            ';
+            break;
+            case 'Joueur':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Joueur</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Joueur</a></li>
+            ';
+            break;
+            case 'Coach':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Coach</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Coach</a></li>
+            ';
+            break;
+            case 'Bénévole':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Bénévole</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Bénevole</a></li>
+            ';
+            break;
+            case 'Administrateur':
+            $menuType = '
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Administrateur</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Administrateur</a></li>
+            ';
+            break;
+          }
+        } else {
+          // Menu connexion
+          $urlConnect = '<li><a href="auth.php" class="waves-effect"><i class="fa fa-toggle-off fa-2x red-text" aria-hidden="true"></i>Se connecter</a></li>';
+
+          $userName = "";
+          $userType = "";
+
+          $menuType = "";
+        }
+
 
 
         return <<<HTML
@@ -184,12 +242,16 @@ $urlConnect = isset($_SESSION['login']) ? '<li><a href="disconnect.php"><i class
     <body>
     <header>
         <ul class="side-nav fixed blue darken-3" id="slide-out">
-        <li><div class="userView"><a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny" width="300px"></img></a></div></li>
-            <li><a href="index.php"><i class="material-icons">language</i>Accueil</a></li>
+        <li><div class="userView">
+        <p class="typeUser"><strong>{$userType}</strong></p>
+        <a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny" width="300px"></img></a>
+        <p class="nameUser"><strong>{$userName}</strong></p>
+        </div></li>
+            <li><a href="index.php" class="waves-effect"><i class="fa fa-home fa-2x" aria-hidden="true"></i>Accueil</a></li>
             {$urlConnect}
             <li><div class="divider"></div></li>
             <li><a class="subheader center">Subheader</a></li>
-            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+            {$menuType}
       </ul>
       <div class="row fixed blue darken-3 menu hide-on-large-only">
           <div class="col s1">
