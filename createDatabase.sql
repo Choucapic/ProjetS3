@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `match` (
 CREATE TABLE IF NOT EXISTS `membre` (
 `idMembre` int(11) NOT NULL,
   `idEquipe` int(11) DEFAULT NULL,
-  `Type` enum('Arbitre','Joueur','Coach','Benevole','Organisateur') NOT NULL,
+  `Type` enum('Arbitre','Joueur','Coach','Benevole','Organisateur','Administrateur') NOT NULL,
   `nom` varchar(70) NOT NULL,
   `prnm` varchar(70) NOT NULL,
   `mail` varchar(250) NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `membre` (
 --
 
 INSERT INTO `membre` (`idMembre`, `idEquipe`, `Type`, `nom`, `prnm`, `mail`, `numLicence`, `numTel`, `adresse`, `cp`, `ville`, `niveauArbitre`, `password`) VALUES
-(5, NULL, 'Organisateur', 'ADMIN', 'admin', 'admin@admin.fr', NULL, NULL, NULL, NULL, NULL, NULL, 'd033e22ae348aeb5660fc2140aec35850c4da997'),
+(5, NULL, 'Administrateur', 'ADMIN', 'admin', 'admin@admin.fr', NULL, NULL, NULL, NULL, NULL, NULL, 'd033e22ae348aeb5660fc2140aec35850c4da997'),
 (6, NULL, 'Arbitre', 'ARBITRE', 'arbitre', 'arbitre@arbitre.fr', NULL, NULL, NULL, NULL, NULL, NULL, '0912e264e176a7f1be428186a022e671bed310c4');
 
 -- --------------------------------------------------------
