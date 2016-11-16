@@ -165,7 +165,7 @@ HTML
 
         if ($isConnected) {
           // Menu déconnexion
-          $urlConnect = '<li><a href="disconnect.php" class="waves-effect"><i class="fa fa-toggle-on fa-2x green-text" aria-hidden="true"></i>Se déconnecter</a></li>';
+          $urlConnect = '<li><a href="script.php?type=disconnection" class="waves-effect"><i class="fa fa-toggle-on fa-2x green-text" aria-hidden="true"></i>Se déconnecter</a></li>';
 
           // Récupération du nom et du type d'utilisateur pour les incorporer à la vignette
           $userName = $_SESSION['nom'] . " " . $_SESSION['prenom'];

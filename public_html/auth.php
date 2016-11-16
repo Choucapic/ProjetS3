@@ -20,7 +20,7 @@ header( "refresh:3; url=index.php" );
 } else {
     $page->appendContent(<<<HTML
     <div class="container">
-    <form id="connect" method="post" name="authentification" action="connect.php" class="col s12">
+    <form id="connect" method="post" name="authentification" action="script.php" class="col s12">
     <div class="row">
       <div class="input-field col m6 s12">
         <i class="material-icons prefix fa fa-at"></i>
@@ -34,6 +34,7 @@ header( "refresh:3; url=index.php" );
         <label for="password">Mot de passe</label>
         </div>
      </div>
+     <input type="hidden" name="type" value="connection"/>
      <div class="btn-auth">
      <button class="btn blue darken-3 waves-effect waves-light" type="submit" name="submit">Se connecter
      <i class="material-icons right">send</i>
