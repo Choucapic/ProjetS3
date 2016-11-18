@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<document>
+	<club>
+		<refClub></refClub>
+		<nom></nom>
+		<adresse></adresse>
+		<cp></cp>
+		<ville></ville>
+		<numTel></numTel>
+	</club>
+	<equipe>
+		<idCat></idCat>
+		<coach>
+			<nom></nom>
+			<prnm></prnm>
+			<mail></mail>
+			<numTel></numTel>
+		</coach>
+		<joueur>
+			<nom></nom>
+			<prnm></prnm>
+			<mail></mail>
+			<numLicence></numLicence>
+		</joueur>
+	</equipe>
