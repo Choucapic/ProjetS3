@@ -173,10 +173,11 @@ HTML
 
           // Switch permettant de modifier le menu en fonction du type d'utilisateur
           switch ($userType) {
+                  
             case 'Organisateur':
             $menuType = '
-              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Organisateur</a></li>
-              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Organisateur</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion équipes</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 organisateur</a></li>
             ';
             break;
             case 'Arbitre':
@@ -205,8 +206,8 @@ HTML
             break;
             case 'Administrateur':
             $menuType = '
-              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 1 Administrateur</a></li>
-              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Menu 2 Administrateur</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>Gestion des équipes</a></li>
+              <li><a class="waves-effect" href="#!"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>Gestion des comptes</a></li>
             ';
             break;
           }
@@ -226,46 +227,53 @@ HTML
 <!doctype html>
 <html lang="fr">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
         <title>{$this->title}</title>
+       
         <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/index.js"></script>
+        
 {$this->head()}
     </head>
     <body>
     <header>
         <ul class="side-nav fixed blue darken-3" id="slide-out">
-        <li><div class="userView">
-        <p class="typeUser"><strong>{$userType}</strong></p>
-        <a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny" width="300px"></img></a>
-        <p class="nameUser"><strong>{$userName}</strong></p>
-        </div></li>
+            <li><div class="userView">
+                <p class="typeUser"><strong>{$userType}</strong></p>
+                <a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny"       width="300px"></img></a>
+                <p class="nameUser"><strong>{$userName}</strong></p>
+                </div></li>
             <li><a href="index.php" class="waves-effect"><i class="fa fa-home fa-2x" aria-hidden="true"></i>Accueil</a></li>
             {$urlConnect}
+            
+            <!-- lien vers planning -->
+            <li><a href="planning.php" class="waves-effect"><i class="fa fa-table fa-2x" aria-hidden="true"></i>Planning des matchs</a></li>
+            
+            
             <li><div class="divider"></div></li>
             <li><a class="subheader center">Subheader</a></li>
             {$menuType}
-      </ul>
-      <div class="row fixed blue darken-3 menu hide-on-large-only">
+        </ul>
+        <div class="row fixed blue darken-3 menu hide-on-large-only">
           <div class="col s1">
-      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons menu-button">menu</i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons menu-button">menu</i></a>
           </div>
           <div class="col s11">
-          <h5 class="white-text center">{$this->title}</h5>
+            <h5 class="white-text center">{$this->title}</h5>
           </div>
-      </div>
-    </div>
+          </div>
+        </div>
     </header>
-      <main>
+    <main>
       <div class="card-panel fixed blue darken-3 menu hide-on-med-and-down">
-      <h4 class="white-text center">{$this->title}</h4>
+        <h4 class="white-text center">{$this->title}</h4>
       </div>
 {$this->body()}
         </main>

@@ -3,9 +3,9 @@ require_once 'myPDO.include.php';
 
 class Categorie{
 
-	private $idCat = null; 
+	private $idCat = null;
 
-	private $tpsJeu = null; 
+	private $tpsJeu = null;
 
 	private $terrain = null;
 
@@ -77,4 +77,18 @@ SQL
                                  ':terrain' => $this ->terrain;
             $this->idCat = myPDO::getInstance()->lastInsertId() ;
     }
+
+		public static function getAllCat(){
+			$stmt = myPDO::getInstance()->prepare(<<<SQL
+						 SELECT idCat
+						 FROM Categorie
+	SQL
+				 ) ;
+				 $stmt->execute() ;
+				 while ($row = stmt->fetch(PDO::FETCH_ASSOC)){
+						 return $row ;
+				 }
+				 throw new Exception('Pas de catégories !') ;
+		 }
+		}
 }

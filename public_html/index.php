@@ -7,7 +7,9 @@ include_once 'class/webpage.class.php';
 $page = new WebPage('Amicale des jeunes de Betheny');
 
 $page->appendContent(<<<HTML
+
 <div class="container">
+
   <h5 class="center">Bienvenue !</h5>
   <p>Sur cette application vous pourrez : </p>
   <div class="row center">
