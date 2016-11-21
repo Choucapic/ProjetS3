@@ -19,17 +19,6 @@ Code postal du Club : <input type="text" name="cp"/>
 Ville du Club : <input type="text" name="ville"/>
 Numéro de téléphone du Club : <input type="text" name="numTel"/>
 Catégorie :
-            <div class="row">
-              <div class="input-field">
-                <select>
-                  <option value="" disabled selected>Choose your option</option>
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
-                  <option value="3">Option 3</option>
-                </select>
-                <label>Materialize Select</label>
-              </div>
-							</div>
 <div class="input-field" name="idCat">
 							 <select>
 								 <option value="U8-U9">U8-U9</option>
@@ -40,7 +29,6 @@ Catégorie :
 								 <option value="U18-U19-U20-Junior">U18-U19-U20-Junior</option>
 								 <option value="senior">Sénior</option>
 							 </select>
-							 <label>Materialize Select</label>
 						 </div>
 
 Numéro de téléphone du Club : <input type="text" name="numTel"/>

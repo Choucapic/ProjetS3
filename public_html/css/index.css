@@ -40,6 +40,19 @@
   color: rgb(17, 91, 166);
 }
 
+/* Pour que les choix des select soient de la même couleur que le bleu du site  */
+ul.dropdown-content.select-dropdown li span {
+    color: rgb(17, 91, 166);
+}
+
+.profilekey {
+  color: rgb(17, 91, 166) !important;
+  font-weight: bold;
+  border-bottom: 1px groove black;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 /* Quand c'est petit */
 @media (max-width: 600px) {
     .btn-auth {
