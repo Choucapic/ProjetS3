@@ -167,13 +167,16 @@ HTML
           // Menu déconnexion
           $urlConnect = '<li><a href="script.php?type=disconnection" class="waves-effect"><i class="fa fa-toggle-on fa-2x green-text" aria-hidden="true"></i>Se déconnecter</a></li>';
 
+          // Menu de profil
+          $urlProfile = '<li><a href="profile.php" class="waves-effect"><i class="fa fa-user fa-2x" aria-hidden="true"></i>Mon profil</a></li>';
+
           // Récupération du nom et du type d'utilisateur pour les incorporer à la vignette
           $userName = $_SESSION['nom'] . " " . $_SESSION['prenom'];
           $userType = $_SESSION['type'] == 'Benevole' ? 'Bénévole' : $_SESSION['type'];
 
           // Switch permettant de modifier le menu en fonction du type d'utilisateur
           switch ($userType) {
-                  
+
             case 'Organisateur':
             $menuType = '
               <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion équipes</a></li>
@@ -215,6 +218,8 @@ HTML
           // Menu connexion
           $urlConnect = '<li><a href="auth.php" class="waves-effect"><i class="fa fa-toggle-off fa-2x red-text" aria-hidden="true"></i>Se connecter</a></li>';
 
+          $urlProfile = '';
+
           $userName = "";
           $userType = "";
 
@@ -227,19 +232,19 @@ HTML
 <!doctype html>
 <html lang="fr">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>{$this->title}</title>
-       
+
         <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/index.js"></script>
-        
+
 {$this->head()}
     </head>
     <body>
@@ -251,12 +256,12 @@ HTML
                 <p class="nameUser"><strong>{$userName}</strong></p>
                 </div></li>
             <li><a href="index.php" class="waves-effect"><i class="fa fa-home fa-2x" aria-hidden="true"></i>Accueil</a></li>
+            {$urlProfile}
             {$urlConnect}
-            
             <!-- lien vers planning -->
             <li><a href="planning.php" class="waves-effect"><i class="fa fa-table fa-2x" aria-hidden="true"></i>Planning des matchs</a></li>
-            
-            
+
+
             <li><div class="divider"></div></li>
             <li><a class="subheader center">Subheader</a></li>
             {$menuType}
