@@ -43,7 +43,7 @@ if (isset($_GET['type'])) {
         $password   = (isset($_POST['password'])) ? sha1(htmlentities(trim($_POST['password'])))   : '';
 
         if (($login != '') && ($password != '')) {
-          include_once 'class/mypdo.include.class.php';
+          include_once 'class/mypdo.include.php';
 
 
           $pdo = myPDO::getInstance();

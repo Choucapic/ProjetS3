@@ -1,5 +1,5 @@
 <?php
-require_once 'myPDO.include.php';
+require_once 'mypdo.include.php';
 
 class Club{
 
@@ -79,7 +79,7 @@ SQL
         throw new Exception('Ligne non trouvée !') ;
     }
 
-	}
+	
 
 	public static function createEmpty(){
 		return new self();
@@ -97,18 +97,32 @@ SQL
 
 	public function save(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
-                REPLACE INTO `Club`(`refClub`,`nom`, `adresse`,
+                REPLACE INTO `club`(`refClub`,`nom`, `adresse`,
 									 `cp`, `ville`,`numTel`)
                                VALUES (:refClub,:name, :adresse,:cp, :ville,
                                   :numTel)
 SQL
 );
             $stmt->execute(array(':refClub' => $this ->refClub,
-                                 ':name' => $this -> name,
+                                 ':name' => $this->nom,
                                  ':adresse' => $this ->adresse,
                                  ':cp' => $this ->cp,
                                  ':ville' => $this ->ville,
-                                 ':numTel' => $this ->numTel;
+                                 ':numTel' => $this ->numTel));
             $this->refClub = myPDO::getInstance()->lastInsertId() ;
     }
-}
+    public static function getAllClub(){
+    	$stmt = myPDO::getInstance()->prepare(<<<SQL
+    		SELECT refClub, nom, adresse, cp, ville, numTel
+            FROM club
+SQL
+) ;
+    	$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+        $stmt->execute();
+        if (($object = $stmt->fetch()) !== false) {
+            return $object ;
+        }
+        throw new Exception('Aucun Club !') ;
+    }
+
+    }

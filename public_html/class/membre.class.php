@@ -1,30 +1,30 @@
 <?php
 
-abstract class Membre{
+  abstract class Membre{
 
   /**
   * L'id du Membre
   * @var int
   **/
-  abstract protected $idMembre;
+  protected $idMembre;
 
   /**
   * Le nom du Membre
   * @var
   **/
-  abstract protected $nom;
+    protected $nom;
 
   /**
   * Le prénom du Membre
   * @var String
   **/
-  abstract protected $prnm;
+    protected $prnm;
 
   /**
   * Le mail du Membre
   * @var String
   **/
-  abstract protected $mail;
+    protected $mail;
 
   /**
   * Accesseur de l'id du Membre
