@@ -3,6 +3,8 @@
 session_start();
 
 include_once 'class/webpage.class.php';
+include_once 'class/club.class.php';
+include_once 'class/mypdo.include.php';
 
 /* -------------------- Déconnexion -------------------- */
 if (isset($_GET['type'])) {
@@ -28,7 +30,7 @@ if (isset($_GET['type'])) {
     $url = 'index';
   }
 } else if (isset($_POST['type'])) {
-  switch (isset($_POST['type'])) {
+  switch ($_POST['type']) {
     /* -------------------- Connexion -------------------- */
     case 'connection' :
       $pageName = 'Connexion';
@@ -43,7 +45,6 @@ if (isset($_GET['type'])) {
         $password   = (isset($_POST['password'])) ? sha1(htmlentities(trim($_POST['password'])))   : '';
 
         if (($login != '') && ($password != '')) {
-          include_once 'class/mypdo.include.php';
 
 
           $pdo = myPDO::getInstance();
@@ -78,6 +79,32 @@ SQL
           $message = 'Mail ou mot de passe vide <br> Vous allez être redirigé automatiquement';
           $time=5;
         }
+      }
+      break;
+    /* -------------------- Inscription de Club -------------------- */
+    case 'insClub' :
+      $pageName = 'Inscription de Club';
+      if (isset($_POST['nom']) && isset($_POST['refClub']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])) {
+        if ($_POST['nom'] != '' && $_POST['refClub'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '') {
+          $data = $_POST;
+          $club = Club::createFromArray($data);
+          $club->save();
+
+          $error = false;
+          $url="index";
+          $message = 'Le club a bien été créé, <br> Vous allez être redirigé vers l\'accueil';
+          $time=3;
+        } else {
+          $error = true;
+          $url="insClub";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+        }
+      } else {
+        $error = true;
+        $url="insClub";
+        $message = 'Problème de création de club <br> Vous allez être redirigé automatiquement';
+        $time=5;
       }
       break;
     default :

@@ -8,7 +8,7 @@ $page = new WebPage('Mon Profil');
 
 if (isset($_SESSION['login'])) {
 
-  include_once 'class/mypdo.include.class.php';
+  include_once 'class/mypdo.include.php';
 
   $items = '';
 
