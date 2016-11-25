@@ -24,13 +24,13 @@ header( "refresh:3; url=index.php" );
     <div class="row">
       <div class="input-field col m6 s12">
         <i class="material-icons prefix fa fa-at"></i>
-        <input id="login" type="email" class="validate" name="login">
+        <input id="login" type="email" class="validate" name="login" required>
         <label for="login">Adresse Mail</label>
         </div>
 
         <div class="input-field col m6 s12">
         <i class="material-icons prefix fa fa-lock"></i>
-        <input id="password" type="password" class="validate" name="password">
+        <input id="password" type="password" class="validate" name="password" required>
         <label for="password">Mot de passe</label>
         </div>
      </div>
