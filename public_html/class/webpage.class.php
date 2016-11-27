@@ -172,6 +172,7 @@ HTML
 
           // Récupération du nom et du type d'utilisateur pour les incorporer à la vignette
           $userName = $_SESSION['nom'] . " " . $_SESSION['prenom'];
+          $fixUserName = strlen($userName) > 20 ? 'style="width:200px;"' : '';
           $userType = $_SESSION['type'] == 'Benevole' ? 'Bénévole' : $_SESSION['type'];
 
           // Switch permettant de modifier le menu en fonction du type d'utilisateur
@@ -221,11 +222,11 @@ HTML
           $urlProfile = '';
 
           $userName = "";
+          $fixUserName = "";
           $userType = "";
 
           $menuType = "";
         }
-
 
 
         return <<<HTML
@@ -253,7 +254,7 @@ HTML
             <li><div class="userView">
                 <p class="typeUser"><strong>{$userType}</strong></p>
                 <a href="http://www.ajbetheny.fr/" target="_blank"><img src="img/betheny.jpg" alt="Amicale des Jeunes de Betheny"       width="300px"></img></a>
-                <p class="nameUser"><strong>{$userName}</strong></p>
+                <p class="nameUser" {$fixUserName}><strong>{$userName}</strong></p>
                 </div></li>
             <li><a href="index.php" class="waves-effect"><i class="fa fa-home fa-2x" aria-hidden="true"></i>Accueil</a></li>
             {$urlProfile}

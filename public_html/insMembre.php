@@ -1,64 +1,119 @@
 <?php
 
-require_once 'class/webpage.class.php';
-require_once 'class/membre.class.php';
-require_once 'class/club.class.php';
+session_start();
 
-/*
-* Traitement 
-*/
-var_dump($_REQUEST);
+include_once 'class/webpage.class.php';
+include_once 'class/mypdo.include.php';
 
-if(isset($_REQUEST['nom']) && isset($_REQUEST['refClub']) && isset($_REQUEST['adresse']) && isset($_REQUEST['cp']) && isset($_REQUEST['ville']) && isset($_REQUEST['numTel'])){
-	$data = $_REQUEST;
-	$club = Club::createFromArray($data);
-	var_dump($club);
-	$club->save();
-}
+$page = new WebPage('Inscription de Membre');
 
+if (isset($_SESSION['login'])) {
+	if ($_SESSION['type'] == 'Administrateur') {
 
-
-/*
-* Formulaire
-*/
-
-$page = new WebPage('Amicale des jeunes de Betheny');
-$page->appendCss(<<<CSS
-.form{
-  padding : 3em;
-}
+		$page->appendCss(<<<CSS
+		.form{
+  	padding : 3em;
+	}
 CSS
 );
-$page->appendContent(<<<HTML
-<h4 align="center">Inscription</h4>
-<form class="form" method="REQUEST" action="insMembre.php">
- : <input type="text" name="refClub"/>
-Adresse du Club : <input type="text" name="adresse"/>
-Code postal du Club : <input type="text" name="cp"/>
-Ville du Club : <input type="text" name="ville"/>
-Numéro de téléphone du Club : <input type="text" name="numTel"/>
 
-Nom du club :<div class="input-field" name="idCat">
-<select name="refClub" size="1">
-HTML
-);
-
-foreach( Club::getAllClub() as $club){
-	if(isset($_REQUEST['refClub'])&&($club->getRefClub() == $club->getRefClub())) {
 		$page->appendContent(<<<HTML
-		<option value="{$club->getRefClub()}" selected> {$club->getNom()}</option>
+		<h4 align="center">Inscription</h4>
+		<form class="form" method="POST" action="#" class="col s12">
+			<div class="row">
+				<div class="input-field" name="Type">
+				 	<select id="insMembreSelect">
+					 	<option value="Organisateur">Organisateur</option>
+					 	<option value="Coach">Coach</option>
+					 	<option value="Arbitre">Arbitre</option>
+					 	<option value="Joueur">Joueur</option>
+					 	<option value="Benevole">Bénévole</option>
+						</select>
+						<label for="Type">Type de Membre</label>
+				</div>
+				<div class="input-field" name="idEquipe" id="idEquipeDiv" hidden>
+					 <select>
+						 <option value="">EN TRAVAUX</option>
+						</select>
+						<label for="Type">Equipe</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="nom" class="validate" required/>
+					<label for="nom">Nom</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="prnm" class="validate" required/>
+					<label for="prnm">Prénom</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="mail" class="validate" required/>
+					<label for="mail">Mail</label>
+				</div>
+				<div class="input-field col m6 s12" id="numLicenceDiv" hidden>
+					<input id="numLicenceInput" type="text" name="numLicence" class="validate" required/>
+					<label for="prnm">Numéro de Licence</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="adresse" class="validate" required/>
+					<label for="adresse">Adresse</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="cp" class="validate" required/>
+					<label for="cp">Code postal</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="ville" class="validate" required/>
+					<label for="ville">Ville</label>
+				</div>
+				<div class="input-field col m6 s12">
+					<input type="text" name="numTel" class="validate" required/>
+					<label for="numTel">Numéro de téléphone</label>
+				</div>
+				<div class="input-field col m6 s12" id="niveauArbitreDiv" hidden>
+					<input id="niveauArbitreInput" type="text" name="niveauArbitre" class="validate" required/>
+					<label for="niveauArbitre">Niveau Arbitre</label>
+				</div>
+				<input type="hidden" name="type" value="insMembre"/>
+			</div>
+			<div class="row">
+				<div class="input-field col m6 s12">
+					<input id="passwordInput" type="password" name="password" class="validate" required/>
+					<label for="numTel">Mot de passe</label>
+					</div>
+					<div class="input-field col m6 s12">
+					<input id="passwordVerifyInput" type="password" name="passwordVerify" class="validate" required error/>
+					<label for="passwordVerify">Retapez le mot de passe</label>
+					</div>
+					<p id="errorMessagePassword" class="center red-text">Les mots de passe doivent correspondre !</p>
+			</div>
+			<div class="btn-auth">
+				<button class="btn blue darken-3 waves-effect waves-light" id="insMembreButton" type="submit" name="submit" disabled>
+					Inscrire <i class="material-icons right">send</i>
+				</button>
+			</div>
+		</form>
 HTML
 );
+
+	} else {
+		$page->appendContent(<<<HTML
+		<div class="container">
+		<h5 class="center"> <i class="fa fa-times fa-5x red-text" aria-hidden="true"></i> <br> Vous n'avez pas les droits requis, vous allez être redirigé vers l'accueil</h5>
+		</div>
+HTML
+);
+
+	header( "refresh:5; url=index.php" );
 	}
-	else{
+} else {
 	$page->appendContent(<<<HTML
-		<option value="{$club->getRefClub()}"> {$club->getNom()}</option>
-</select>
-</div>
-<button type="submit">Envoyer</button>
-</form>
+	<div class="container">
+	<h5 class="center"> <i class="fa fa-times fa-5x red-text" aria-hidden="true"></i> <br> Vous n'êtes pas connecté, vous allez être redirigé vers l'accueil</h5>
+	</div>
 HTML
 );
+
+header( "refresh:5; url=index.php" );
 }
-}
+
 echo $page->toHTML();

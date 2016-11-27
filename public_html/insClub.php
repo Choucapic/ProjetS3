@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once 'class/webpage.class.php';
+include_once 'class/webpage.class.php';
 
 $page = new WebPage('Inscription de Club');
 
