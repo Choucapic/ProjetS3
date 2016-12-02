@@ -18,6 +18,7 @@ CSS
 );
 
 		$page->appendContent(<<<HTML
+
 		<h4 align="center">Inscription</h4>
 		<form class="form" method="POST" action="#" class="col s12">
 			<div class="row">
@@ -94,8 +95,7 @@ CSS
 		</form>
 HTML
 );
-
-	} else {
+} else {
 		$page->appendContent(<<<HTML
 		<div class="container">
 		<h5 class="center"> <i class="fa fa-times fa-5x red-text" aria-hidden="true"></i> <br> Vous n'avez pas les droits requis, vous allez être redirigé vers l'accueil</h5>

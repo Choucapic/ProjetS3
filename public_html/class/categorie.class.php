@@ -78,17 +78,19 @@ SQL
             $this->idCat = myPDO::getInstance()->lastInsertId() ;
     }
 
-		public static function getAllCat(){
-			$stmt = myPDO::getInstance()->prepare(<<<SQL
-						 SELECT idCat
-						 FROM Categorie
-	SQL
-				 ) ;
-				 $stmt->execute() ;
-				 while ($row = stmt->fetch(PDO::FETCH_ASSOC)){
-						 return $row ;
-				 }
-				 throw new Exception('Pas de catégories !') ;
-		 }
-		}
+		public static function getAll(){
+        $stmt = myPDO::getInstance()->prepare(<<<SQL
+            SELECT idCat, tpsJeu, terrain
+            FROM Categorie
+SQL
+        ) ;
+        $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+        $stmt->execute(array($idCat)) ;
+        $res = array();
+        if (($object = $stmt->fetch()) !== false) {
+            $res[] = $object ;
+        }
+        return $res;
+        throw new Exception('Pas de catégorie') ;
+    }
 }

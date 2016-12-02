@@ -36,6 +36,10 @@
     margin-top: 10px;
 }
 
+.nav-wrapper{
+  color: rgb(17, 91, 166) !important;
+}
+
    /* icon prefix focus color */
 .input-field .prefix.active {
   color: rgb(17, 91, 166);
