@@ -107,6 +107,145 @@ SQL
         $time=5;
       }
       break;
+      /* -------------------- Inscription d'Equipe -------------------- */
+      case 'insEquipe' :
+      $pageName = 'Inscription d\'Equipe';
+      if (isset($_POST['idCoach']) && isset($_POST['refClub']) && isset($_POST['idCat'])) {
+        if ($_POST['idCoach'] != '' && $_POST['refClub'] != '' && $_POST['idCat'] != '') {
+          $stmt = myPDO::getInstance()->prepare(<<<SQL
+                      INSERT INTO `equipe` (`idEquipe`, `idCoach`, `refClub`, `idCat`) VALUES (NULL, '{$_POST['idCoach']}', '{$_POST['refClub']}', '{$_POST['idCat']}');
+SQL
+);
+                  $stmt->execute();
+          $error = false;
+          $url="index";
+          $message = 'L\'Equipe a bien été créée, <br> Vous allez être redirigé vers l\'accueil';
+          $time=3;
+        } else {
+          $error = true;
+          $url="insEquipe";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+        }
+      } else {
+        $error = true;
+        $url="insEquipe";
+        $message = 'Problème de création d\'équipe <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+      break;
+      /* -------------------- Inscription de Membre -------------------- */
+      case 'insMembre' :
+      $pageName = 'Inscription d\'Equipe';
+      switch ($_POST['Type']) {
+        case 'Organisateur' :
+        case 'Benevole' :
+          if (isset($_POST['nom']) && isset($_POST['prnm']) && isset($_POST['mail']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])  && isset($_POST['password'])) {
+            if ($_POST['nom'] != '' && $_POST['prnm'] != '' && $_POST['mail'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '' && $_POST['password'] != '') {
+              $stmt = myPDO::getInstance()->prepare(<<<SQL
+                          INSERT INTO `membre` (`nom`, `prnm`, `mail`, `adresse`, `cp`, `ville`, `numTel`, `Type`, `password`) VALUES ('{$_POST['nom']}', '{$_POST['prnm']}', '{$_POST['mail']}', '{$_POST['adresse']}', '{$_POST['cp']}', '{$_POST['ville']}', '{$_POST['numTel']}', '{$_POST['Type']}', SHA1('{$_POST['password']}'));
+SQL
+);
+              $stmt->execute();
+            $error = false;
+            $url="index";
+            $message = 'Le Membre ' . $_POST['Type'] . ' a bien été créée, <br> Vous allez être redirigé vers l\'accueil';
+            $time=3;
+            } else {
+              $error = true;
+              $url="insMembre";
+              $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+              $time=5;
+            }
+          } else {
+            $error = true;
+            $url="insMembre";
+            $message = 'Problème de création de Membre <br> Vous allez être redirigé automatiquement';
+            $time=5;
+          }
+          break;
+        case 'Arbitre' :
+          if (isset($_POST['nom']) && isset($_POST['prnm']) && isset($_POST['mail']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])  && isset($_POST['password'])  && isset($_POST['numLicence'])   && isset($_POST['niveauArbitre'])) {
+            if ($_POST['nom'] != '' && $_POST['prnm'] != '' && $_POST['mail'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '' && $_POST['password'] != '' && $_POST['numLicence'] != '' && $_POST['niveauArbitre'] != '') {
+              $stmt = myPDO::getInstance()->prepare(<<<SQL
+                        INSERT INTO `membre` (`nom`, `prnm`, `mail`, `adresse`, `cp`, `ville`, `numTel`, `Type`, `password`, `numLicence`, `niveauArbitre`) VALUES ('{$_POST['nom']}', '{$_POST['prnm']}', '{$_POST['mail']}', '{$_POST['adresse']}', '{$_POST['cp']}', '{$_POST['ville']}', '{$_POST['numTel']}', '{$_POST['Type']}', SHA1('{$_POST['password']}'), '{$_POST['numLicence']}', '{$_POST['niveauArbitre']}');
+SQL
+);
+            $stmt->execute();
+            $error = false;
+            $url="index";
+            $message = 'Le Membre ' . $_POST['Type'] . ' a bien été créée, <br> Vous allez être redirigé vers l\'accueil';
+            $time=3;
+          } else {
+            $error = true;
+            $url="insMembre";
+            $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+            $time=5;
+          }
+        } else {
+          $error = true;
+          $url="insMembre";
+          $message = 'Problème de création de Membre <br> Vous allez être redirigé automatiquement';
+          $time=5;
+        }
+          break;
+        case 'Coach' :
+          if (isset($_POST['nom']) && isset($_POST['prnm']) && isset($_POST['mail']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])  && isset($_POST['password'])  && isset($_POST['numLicence'])) {
+            if ($_POST['nom'] != '' && $_POST['prnm'] != '' && $_POST['mail'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '' && $_POST['password'] != '' && $_POST['numLicence'] != '') {
+              $stmt = myPDO::getInstance()->prepare(<<<SQL
+                      INSERT INTO `membre` (`nom`, `prnm`, `mail`, `adresse`, `cp`, `ville`, `numTel`, `Type`, `password`, `numLicence`) VALUES ('{$_POST['nom']}', '{$_POST['prnm']}', '{$_POST['mail']}', '{$_POST['adresse']}', '{$_POST['cp']}', '{$_POST['ville']}', '{$_POST['numTel']}', '{$_POST['Type']}', SHA1('{$_POST['password']}'), '{$_POST['numLicence']}');
+SQL
+);
+            $stmt->execute();
+            $error = false;
+            $url="index";
+            $message = 'Le Membre ' . $_POST['Type'] . ' a bien été créée, <br> Vous allez être redirigé vers l\'accueil';
+            $time=3;
+          } else {
+            $error = true;
+            $url="insMembre";
+            $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+            $time=5;
+        }
+      } else {
+        $error = true;
+        $url="insMembre";
+        $message = 'Problème de création de Membre <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+          break;
+        case 'Joueur' :
+          if (isset($_POST['nom']) && isset($_POST['prnm']) && isset($_POST['mail']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel']) && isset($_POST['password']) && isset($_POST['numLicence']) && isset($_POST['idEquipe'])) {
+            if ($_POST['nom'] != '' && $_POST['prnm'] != '' && $_POST['mail'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '' && $_POST['password'] != '' && $_POST['numLicence'] != '' && $_POST['idEquipe'] != '') {
+              $stmt = myPDO::getInstance()->prepare(<<<SQL
+                    INSERT INTO `membre` (`nom`, `prnm`, `mail`, `adresse`, `cp`, `ville`, `numTel`, `Type`, `password`, `numLicence`, `idEquipe`) VALUES ('{$_POST['nom']}', '{$_POST['prnm']}', '{$_POST['mail']}', '{$_POST['adresse']}', '{$_POST['cp']}', '{$_POST['ville']}', '{$_POST['numTel']}', '{$_POST['Type']}', SHA1('{$_POST['password']}'), '{$_POST['numLicence']}', '{$_POST['idEquipe']}');
+SQL
+);
+            $stmt->execute();
+            $error = false;
+            $url="index";
+            $message = 'Le Membre ' . $_POST['Type'] . ' a bien été créée, <br> Vous allez être redirigé vers l\'accueil';
+            $time=3;
+        } else {
+          $error = true;
+          $url="insMembre";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+      }
+    } else {
+      $error = true;
+      $url="insMembre";
+      $message = 'Problème de création de Membre <br> Vous allez être redirigé automatiquement';
+      $time=5;
+    }
+          break;
+        default :
+        $error = true;
+        $url="insMembre";
+        $message = 'Problème de création de Membre <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+      break;
     default :
     $error = true;
     $url = "index";

@@ -58,6 +58,11 @@ ul.dropdown-content.select-dropdown li span {
   padding-right: 10px;
 }
 
+.collapsible-header {
+  font-weight: bold;
+  font-size: 14px;
+}
+
 /* Quand c'est petit */
 @media (max-width: 600px) {
     .btn-auth {

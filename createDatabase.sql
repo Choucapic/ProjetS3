@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `dispo` (
 CREATE TABLE IF NOT EXISTS `equipe` (
 `idEquipe` int(11) NOT NULL,
   `idCoach` int(11) NOT NULL,
-  ` refClub` int(11) NOT NULL,
+  `refClub` int(11) NOT NULL,
   `idCat` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -10,6 +10,23 @@ $page = new WebPage('Inscription de Membre');
 if (isset($_SESSION['login'])) {
 	if ($_SESSION['type'] == 'Administrateur') {
 
+		// For Equipes
+		$stmt = myPDO::getInstance()->prepare(<<<SQL
+						SELECT idEquipe, nom, idCat
+						FROM equipe, club
+						WHERE equipe.refClub = club.refClub
+SQL
+);
+				$stmt->execute(array()) ;
+				$equipes = array();
+				while (($object = $stmt->fetch()) !== false) {
+						$equipes[] = $object ;
+					}
+		$equipeHTML = "";
+		foreach ($equipes as $equipe) {
+		$equipeHTML .= "<option value=\"". $equipe['idEquipe'] ."\">". $equipe['nom'] . " - " . $equipe['idCat'] ."</option>";
+		}
+
 		$page->appendCss(<<<CSS
 		.form{
   	padding : 3em;
@@ -20,10 +37,10 @@ CSS
 		$page->appendContent(<<<HTML
 
 		<h4 align="center">Inscription</h4>
-		<form class="form" method="POST" action="#" class="col s12">
+		<form class="form" method="POST" action="script.php" class="col s12">
 			<div class="row">
 				<div class="input-field" name="Type">
-				 	<select id="insMembreSelect">
+				 	<select id="insMembreSelect" name="Type">
 					 	<option value="Organisateur">Organisateur</option>
 					 	<option value="Coach">Coach</option>
 					 	<option value="Arbitre">Arbitre</option>
@@ -33,8 +50,8 @@ CSS
 						<label for="Type">Type de Membre</label>
 				</div>
 				<div class="input-field" name="idEquipe" id="idEquipeDiv" hidden>
-					 <select>
-						 <option value="">EN TRAVAUX</option>
+					 <select name="idEquipe" id="selectIdEquipe">
+						 {$equipeHTML}
 						</select>
 						<label for="Type">Equipe</label>
 				</div>
@@ -47,11 +64,11 @@ CSS
 					<label for="prnm">Prénom</label>
 				</div>
 				<div class="input-field col m6 s12">
-					<input type="text" name="mail" class="validate" required/>
+					<input type="email" name="mail" class="validate" required/>
 					<label for="mail">Mail</label>
 				</div>
 				<div class="input-field col m6 s12" id="numLicenceDiv" hidden>
-					<input id="numLicenceInput" type="text" name="numLicence" class="validate" required/>
+					<input id="numLicenceInput" type="text" name="numLicence" class="validate" disabled required/>
 					<label for="prnm">Numéro de Licence</label>
 				</div>
 				<div class="input-field col m6 s12">
@@ -71,7 +88,7 @@ CSS
 					<label for="numTel">Numéro de téléphone</label>
 				</div>
 				<div class="input-field col m6 s12" id="niveauArbitreDiv" hidden>
-					<input id="niveauArbitreInput" type="text" name="niveauArbitre" class="validate" required/>
+					<input id="niveauArbitreInput" type="text" name="niveauArbitre" class="validate" disabled required/>
 					<label for="niveauArbitre">Niveau Arbitre</label>
 				</div>
 				<input type="hidden" name="type" value="insMembre"/>
@@ -88,7 +105,7 @@ CSS
 					<p id="errorMessagePassword" class="center red-text">Les mots de passe doivent correspondre !</p>
 			</div>
 			<div class="btn-auth">
-				<button class="btn blue darken-3 waves-effect waves-light" id="insMembreButton" type="submit" name="submit" disabled>
+				<button class="btn blue darken-3 waves-effect waves-light" id="insMembreButton" type="submit" name="submit">
 					Inscrire <i class="material-icons right">send</i>
 				</button>
 			</div>

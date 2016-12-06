@@ -7,34 +7,40 @@ $( document ).ready(function(){
       switch (this.value) {
         case 'Arbitre' :
             $("#niveauArbitreDiv").prop("hidden", false);
+            $("#niveauArbitreInput").prop("disabled", false);
             $("#numLicenceDiv").prop("hidden", false);
+            $("#numLicenceInput").prop("disabled", false);
             $("#idEquipeDiv").prop("hidden", true);
+            $("#selectIdEquipe").prop("disabled", true);
           break;
         case 'Organisateur' :
+        case 'Benevole' :
           $("#niveauArbitreDiv").prop("hidden", true);
+          $("#niveauArbitreInput").prop("disabled", true);
           $("#niveauArbitreInput").val('');
           $("#numLicenceDiv").prop("hidden", true);
+          $("#numLicenceInput").prop("disabled", true);
           $("#numLicenceInput").val('');
           $("#idEquipeDiv").prop("hidden", true);
+          $("#selectIdEquipe").prop("disabled", true);
           break;
         case 'Coach' :
           $("#niveauArbitreDiv").prop("hidden", true);
+          $("#niveauArbitreInput").prop("disabled", true);
           $("#niveauArbitreInput").val('');
           $("#numLicenceDiv").prop("hidden", false);
+          $("#numLicenceInput").prop("disabled", false);
           $("#idEquipeDiv").prop("hidden", true);
+          $("#selectIdEquipe").prop("disabled", true);
           break;
         case 'Joueur' :
           $("#niveauArbitreDiv").prop("hidden", true);
+          $("#niveauArbitreInput").prop("disabled", true);
           $("#niveauArbitreInput").val('');
           $("#numLicenceDiv").prop("hidden", false);
+          $("#numLicenceInput").prop("disabled", false);
           $("#idEquipeDiv").prop("hidden", false);
-          break;
-        case 'Bénévole' :
-          $("#niveauArbitreDiv").prop("hidden", true);
-          $("#niveauArbitreInput").val('');
-          $("#numLicenceDiv").prop("hidden", true);
-          $("#numLicenceInput").val('');
-          $("#idEquipeDiv").prop("hidden", true);
+          $("#selectIdEquipe").prop("disabled", false);
           break;
       }
     });

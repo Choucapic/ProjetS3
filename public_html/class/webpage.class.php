@@ -210,8 +210,36 @@ HTML
             break;
             case 'Administrateur':
             $menuType = '
-              <li><a class="waves-effect" href="#!"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>Gestion des équipes</a></li>
-              <li><a class="waves-effect" href="#!"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>Gestion des comptes</a></li>
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-users fa-2x" aria-hidden="true"></i>Gestion des équipes
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="insEquipe.php" class="waves-effect">Inscrire une équipe</a>
+                  <a href="seeEquipe.php" class="waves-effect">Voir les équipes</a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-id-card-o fa-2x" aria-hidden="true"></i>Gestion des comptes
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="insMembre.php" class="waves-effect"> Inscrire un membre</a>
+                  <a href="seeMembre.php" class="waves-effect">Voir les membres</a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-home fa-2x" aria-hidden="true"></i>Gestion des clubs
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="insClub.php" class="waves-effect">Inscrire un Club</a>
+                </div>
+              </li>
+            </ul>
             ';
             break;
           }
@@ -242,7 +270,7 @@ HTML
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/index.js"></script>
 

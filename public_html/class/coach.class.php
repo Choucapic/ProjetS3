@@ -1,5 +1,8 @@
 <?php
 
+include_once 'membre.class.php';
+include_once 'mypdo.include.php';
+
 class Coach extends Membre{
 
 
@@ -8,7 +11,7 @@ class Coach extends Membre{
   public function getNumTel(){
     return $this->numTel;
   }
-  
+
   public static function createFromId($idMembre){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMembre, nom, prnm, mail, numTel
@@ -24,7 +27,6 @@ SQL
         }
         throw new Exception('Ligne non trouvée !') ;
     }
-  }
 
   public static function createEmpty(){
     return new self();
@@ -50,7 +52,7 @@ SQL
                          ':nom' => $this ->nom,
                          ':prnm' => $this ->prnm,
                          ':mail' => $this ->mail,
-                         ':numTel' => $this ->numTel;
+                         ':numTel' => $this ->numTel));
             $this->idMembre = myPDO::getInstance()->lastInsertId() ;
     }
 }
