@@ -246,6 +246,62 @@ SQL
         $time=5;
       }
       break;
+    /* -------------------- Modification de Membre -------------------- */
+    case 'modifyMembre' :
+      $pageName = 'Modification de Membre';
+      if (isset($_POST['nom']) && isset($_POST['prnm']) && isset($_POST['mail']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])) {
+        if ($_POST['nom'] != '' && $_POST['prnm'] != '' && $_POST['mail'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '') {
+
+          $SQLset = 'nom = \''.$_POST['nom'].'\', prnm = \''.$_POST['prnm'].'\', mail = \''.$_POST['mail'].'\', adresse = \''.$_POST['adresse'].'\', cp = \''.$_POST['cp'].'\', ville = \''.$_POST['ville'].'\' , numTel = \''.$_POST['numTel'].'\'';
+
+          if (isset($_POST['numLicence'])) {
+            if ($_POST['numLicence'] != '') {
+              $SQLset .= ', numLicence = \''.$_POST['numLicence'].'\'';
+            }
+          }
+
+          if (isset($_POST['niveauArbitre'])) {
+            if ($_POST['niveauArbitre'] != '') {
+              $SQLset .= ', niveauArbitre = \''.$_POST['niveauArbitre'].'\'';
+            }
+          }
+
+          if (isset($_POST['idEquipe'])) {
+            if ($_POST['idEquipe'] != '') {
+              $SQLset .= ', idEquipe = \''.$_POST['idEquipe'].'\'';
+            }
+          }
+
+          if (isset($_POST['password'])) {
+            if ($_POST['password'] != '') {
+              $SQLset .= ', password = \''.$_POST['password'].'\'';
+            }
+          }
+
+          $stmt = myPDO::getInstance()->prepare(<<<SQL
+                UPDATE membre
+                SET {$SQLset}
+                WHERE idMembre = {$_POST['idMembre']}
+SQL
+);
+          $stmt->execute();
+          $error = false;
+          $url="index";
+          $message = 'Le Membre a bien été modifié, <br> Vous allez être redirigé vers l\'accueil';
+          $time=3;
+        } else {
+          $error = true;
+          $url="seeMembre";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+      }
+      } else {
+        $error = true;
+        $url="seeMembre";
+        $message = 'Problème de modification de Membre <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+      break;
     default :
     $error = true;
     $url = "index";

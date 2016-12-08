@@ -38,7 +38,7 @@ SQL
         $membres[] = $object ;
       }
       foreach ($membres as $membre) {
-      $HTML .= '<div class="row member"><div class="col m6 s6"> <p style="padding-top: 15px;"> Nom : '.  $membre['nom'] . ' ' . $membre['prnm'] . '<br> Num Tel. : '.  $membre['numTel'] .'</p> </div> <div class="col m6 s6"><a class="black waves-effect waves-light btn right" href="modifyProfile.php?'. $membre['idMembre'] .'" style="margin-right: 10px; margin-top: 18px;"><i class="material-icons left">mode_edit</i>Modifier</a></div></div><hr>';
+      $HTML .= '<div class="row member"><div class="col m6 s6"> <p style="padding-top: 15px;"> Nom : '.  $membre['nom'] . ' ' . $membre['prnm'] . '<br> Num Tel. : '.  $membre['numTel'] .'</p> </div> <div class="col m6 s6"><a class="black waves-effect waves-light btn right" href="modifyMembre.php?id='. $membre['idMembre'] .'" style="margin-right: 10px; margin-top: 18px;"><i class="material-icons left">mode_edit</i>Modifier</a></div></div><hr>';
       }
     $HTML .= "</div> </li>";
     }

@@ -69,7 +69,7 @@ CSS
 				</div>
 				<div class="input-field col m6 s12" id="numLicenceDiv" hidden>
 					<input id="numLicenceInput" type="text" name="numLicence" class="validate" disabled required/>
-					<label for="prnm">Numéro de Licence</label>
+					<label for="numLicence">Numéro de Licence</label>
 				</div>
 				<div class="input-field col m6 s12">
 					<input type="text" name="adresse" class="validate" required/>
@@ -96,7 +96,7 @@ CSS
 			<div class="row">
 				<div class="input-field col m6 s12">
 					<input id="passwordInput" type="password" name="password" class="validate" required/>
-					<label for="numTel">Mot de passe</label>
+					<label for="password">Mot de passe</label>
 					</div>
 					<div class="input-field col m6 s12">
 					<input id="passwordVerifyInput" type="password" name="passwordVerify" class="validate" required error/>

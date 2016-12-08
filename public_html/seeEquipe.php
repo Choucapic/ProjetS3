@@ -43,7 +43,7 @@ SQL
         $equipes[] = $object ;
       }
       foreach ($equipes as $equipe) {
-      $HTML .= '<p> Equipe : '.  $club['nom'] . ' - ' . $equipe['idCat'] . ' || Coach : '. $equipe['nom'] . ' ' . $equipe['prnm'] .'</p>';
+      $HTML .= '<p> Equipe : '.  $club['nom'] . ' - ' . $equipe['idCat'] . ' || Coach : '. $equipe['nom'] . ' ' . $equipe['prnm'] .'</p> <hr>';
       }
     $HTML .= "</div> </li>";
     }
