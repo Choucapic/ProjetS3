@@ -13,7 +13,7 @@ if (isset($_SESSION['login'])) {
     // For clubs
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT refClub, nom
-            FROM Club
+            FROM club
 SQL
 );
     $stmt->execute(array()) ;
