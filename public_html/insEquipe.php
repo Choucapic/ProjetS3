@@ -14,7 +14,7 @@ if (isset($_SESSION['login'])) {
     // For coachs
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMembre, nom, prnm
-            FROM Membre
+            FROM membre
             WHERE Type = "Coach"
 SQL
 );
@@ -31,7 +31,7 @@ SQL
     // For clubs
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT refClub, nom
-            FROM Club
+            FROM club
 SQL
 );
         $stmt->execute(array()) ;
@@ -47,7 +47,7 @@ SQL
     // For categories
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idCat
-            FROM Categorie
+            FROM categorie
 SQL
 );
         $stmt->execute(array()) ;

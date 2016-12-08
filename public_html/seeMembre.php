@@ -13,7 +13,7 @@ if (isset($_SESSION['login'])) {
     // For clubs
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT Type
-            FROM Membre
+            FROM membre
 SQL
 );
     $stmt->execute(array()) ;
@@ -32,7 +32,7 @@ $HTML = '<ul class="collapsible" data-collapsible="expandable">';
       // For Equipes en fonction des clubs
       $stmt = myPDO::getInstance()->prepare(<<<SQL
               SELECT idMembre, nom, prnm, numTel
-              FROM Membre
+              FROM membre
               WHERE Type = '{$type['Type']}'
 SQL
 );
