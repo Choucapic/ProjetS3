@@ -26,6 +26,15 @@
   margin: 0px;
 }
 
+.member {
+  padding-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.membertext {
+  padding-top: 8px !important;
+}
+
 .menu {
   margin-top: 0px;
   padding-top: 10px;

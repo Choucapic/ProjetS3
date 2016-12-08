@@ -10,30 +10,26 @@ $page = new WebPage('Visualisation des Membres');
 if (isset($_SESSION['login'])) {
 	if ($_SESSION['type'] == 'Administrateur') {
 
-    // For clubs
-    $stmt = myPDO::getInstance()->prepare(<<<SQL
-            SELECT Type
-            FROM Membre
-SQL
-);
-    $stmt->execute(array()) ;
-    $types = array();
-    while (($object = $stmt->fetch()) !== false) {
-      $types[] = $object ;
-    }
+    // For Type de membre
+		$stmt = myPDO::getInstance()->prepare("SHOW COLUMNS FROM membre WHERE Field = 'Type'" );
+			$stmt->execute() ;
+			$object = $stmt->fetch();
+		  preg_match("/^enum\(\'(.*)\'\)$/", $object['Type'], $matches);
+		  $types = explode("','", $matches[1]);
+			sort($types);
 
 $HTML = '<ul class="collapsible" data-collapsible="expandable">';
     foreach ($types as $type) {
       $HTML .= '<li>
         <div class="collapsible-header waves-effect"> Membres
-        '. ($type['Type'] == 'Benevole' ? 'Bénévole' : $type['Type'])  .'
+        '. ($type == 'Benevole' ? 'Bénévole' : $type)  .'
         </div>
-        <div class="collapsible-body blue darken-2">';
-      // For Equipes en fonction des clubs
+        <div class="collapsible-body blue darken-1 memberCollapse">';
+      // For Membre en fonction du type
       $stmt = myPDO::getInstance()->prepare(<<<SQL
               SELECT idMembre, nom, prnm, numTel
               FROM Membre
-              WHERE Type = '{$type['Type']}'
+              WHERE Type = '{$type}'
 SQL
 );
       $stmt->execute(array()) ;
@@ -42,7 +38,7 @@ SQL
         $membres[] = $object ;
       }
       foreach ($membres as $membre) {
-      $HTML .= '<p> Nom : '.  $membre['nom'] . ' ' . $membre['prnm'] . ' || Num Tel. : '.  $membre['numTel'] .'</p>';
+      $HTML .= '<div class="row member"><div class="col m6 s6"> <p style="padding-top: 15px;"> Nom : '.  $membre['nom'] . ' ' . $membre['prnm'] . '<br> Num Tel. : '.  $membre['numTel'] .'</p> </div> <div class="col m6 s6"><a class="black waves-effect waves-light btn right" href="modifyProfile.php?'. $membre['idMembre'] .'" style="margin-right: 10px; margin-top: 18px;"><i class="material-icons left">mode_edit</i>Modifier</a></div></div><hr>';
       }
     $HTML .= "</div> </li>";
     }
