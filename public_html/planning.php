@@ -27,7 +27,7 @@ $page->appendJs(<<<JS
 			},
 			defaultDate: '2016-12-12',
 			navLinks: true, // can click day/week names to navigate views
-			editable: true,
+			editable: trueé,
 			eventLimit: true, // allow "more" link when too many events
 			events: [
 				{

@@ -28,7 +28,7 @@ $HTML = '<ul class="collapsible" data-collapsible="expandable">';
       // For Membre en fonction du type
       $stmt = myPDO::getInstance()->prepare(<<<SQL
               SELECT idMembre, nom, prnm, numTel
-              FROM Membre
+              FROM membre
               WHERE Type = '{$type}'
 SQL
 );
