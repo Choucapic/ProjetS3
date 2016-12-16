@@ -7,114 +7,136 @@ include_once'class/webpage.class.php';
 $page = new Webpage('planning des matchs');
 
 $page->appendToHead(<<<HTML
-<link href='css/fullcalendar.min.css' rel='stylesheet' />
-<link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-<script src='js/moment.min.js'></script>
-<script src='js/jquery.min.js'></script>
-<script src='js/fullcalendar.min.js'></script>
-
+<script src="jqu ery-1.11.3.min.js"></script>
+<script src="js/brackets.min.js"></script>
 HTML
 );
-
-$page->appendJs(<<<JS
-	$(document).ready(function() {
-		
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay,listWeek'
-			},
-			defaultDate: '2016-12-12',
-			navLinks: true, // can click day/week names to navigate views
-			editable: trueé,
-			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2016-12-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2016-12-07',
-					end: '2016-12-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-12-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-12-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2016-12-11',
-					end: '2016-12-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-12-12T10:30:00',
-					end: '2016-12-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2016-12-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-12-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2016-12-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2016-12-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2016-12-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2016-12-28'
-				}
-			]
-		});
-		
-	});
-
-JS
-);
-
-$page->appendCss(<<<CSS
-
-		body {
-		margin: 40px 10px;
-		padding: 0;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		font-size: 14px;
-	}
-
-	#calendar {
-		max-width: 900px;
-		margin: 0 auto;
-	}
-
-
-CSS
-);
-
 $page->appendContent(<<<HTML
-
-	<div id='calendar'></div>
-
+<div class="brackets"></div>
 HTML
+);
+$page->appendJs(<<<JS
+var rounds;
+
+  rounds = [
+
+
+    //-- round 1
+    [
+
+        {
+          player1: { name: "Player 111", winner: true, ID: 111 },
+          player2: { name: "Player 211", ID: 211 }
+        },
+
+        {
+          player1: { name: "Player 112", winner: true, ID: 112 },
+          player2: { name: "Player 212", ID: 212 }
+        },
+
+        {
+          player1: { name: "Player 113", winner: true, ID: 113 },
+          player2: { name: "Player 213", ID: 213 }
+        },
+
+        {
+          player1: { name: "Player 114", winner: true, ID: 114 },
+          player2: { name: "Player 214", ID: 214 }
+        },
+
+        {
+          player1: { name: "Player 115", winner: true, ID: 115 },
+          player2: { name: "Player 215", ID: 215 }
+        },
+
+        {
+          player1: { name: "Player 116", winner: true, ID: 116 },
+          player2: { name: "Player 216", ID: 216 }
+        },
+
+        {
+          player1: { name: "Player 117", winner: true, ID: 117 },
+          player2: { name: "Player 217", ID: 217 }
+        },
+
+        {
+          player1: { name: "Player 118", winner: true, ID: 118 },
+          player2: { name: "Player 218", ID: 218 }
+        },
+    ],
+
+    //-- round 2
+    [
+
+        {
+          player1: { name: "Player 111", winner: true, ID: 111 },
+          player2: { name: "Player 212", ID: 212 }
+        },
+
+        {
+          player1: { name: "Player 113", winner: true, ID: 113 },
+          player2: { name: "Player 214", ID: 214 }
+        },
+
+        {
+          player1: { name: "Player 115", winner: true, ID: 115 },
+          player2: { name: "Player 216", ID: 216 }
+        },
+
+        {
+          player1: { name: "Player 117", winner: true, ID: 117 },
+          player2: { name: "Player 218", ID: 218 }
+        },
+    ],
+
+    //-- round 3
+    [
+
+        {
+          player1: { name: "Player 111", winner: true, ID: 111 },
+          player2: { name: "Player 113", ID: 113 }
+        },
+
+        {
+          player1: { name: "Player 115", winner: true, ID: 115 },
+          player2: { name: "Player 218", ID: 218 }
+        },
+    ],
+
+    //-- round 4
+    [
+
+        {
+          player1: { name: "Player 113", winner: true, ID: 113 },
+          player2: { name: "Player 218", winner: true, ID: 218 },
+        },
+    ],
+
+    //-- Champion
+    [
+
+        {
+          player1: { name: "Player 113", winner: true, ID: 113 },
+        },
+    ],
+
+];
+
+var titles = ['round 1', 'round 2', 'round 3', 'round 4', 'round 5'];
+
+	$(".brackets").brackets({
+		  rounds: false,
+		  titles: false,
+		  color_title: 'black',
+		  border_color: 'black',
+		  color_player: 'black',
+		  bg_player: 'white',
+		  color_player_hover: 'black',
+		  bg_player_hover: 'white',
+		  border_radius_player: '0px',
+		  border_radius_lines: '0px',
+		});
+JS
 );
 
 echo $page->toHTML();
