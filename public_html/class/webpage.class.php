@@ -236,7 +236,8 @@ HTML
                   <i class="fa fa-home fa-2x" aria-hidden="true"></i>Gestion des clubs
                 </div>
                 <div class="collapsible-body blue darken-2 center">
-                  <a href="insClub.php" class="waves-effect">Inscrire un Club</a>
+                  <a href="insClub.php" class="waves-effect">Inscrire un club</a>
+                  <a href="seeClub.php" class="waves-effect">Voir les clubs</a>
                 </div>
               </li>
             </ul>

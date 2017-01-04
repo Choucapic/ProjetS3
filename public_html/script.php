@@ -302,6 +302,35 @@ SQL
         $time=5;
       }
       break;
+    /* -------------------- Modification de Club -------------------- */
+    case 'modifyClub' :
+      $pageName = 'Modification de Club';
+      if (isset($_POST['refClub']) && isset($_POST['nom']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville']) && isset($_POST['numTel'])) {
+        if ($_POST['refClub'] != '' && $_POST['nom'] != '' && $_POST['adresse'] != '' && $_POST['cp'] != '' && $_POST['ville'] != '' && $_POST['numTel'] != '') {
+          $stmt = myPDO::getInstance()->prepare(<<<SQL
+                UPDATE club
+                SET nom = '{$_POST['nom']}', adresse = '{$_POST['adresse']}', cp = '{$_POST['cp']}', ville = '{$_POST['ville']}', numTel = '{$_POST['numTel']}'
+                WHERE refClub = {$_POST['refClub']}
+SQL
+);
+          $stmt->execute();
+          $error = false;
+          $url="index";
+          $message = 'Le Club a bien été modifié, <br> Vous allez être redirigé vers l\'accueil';
+          $time=3;
+        } else {
+          $error = true;
+          $url="seeClub";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+      }
+      } else {
+        $error = true;
+        $url="seeClub";
+        $message = 'Problème de modification de Club <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+      break;
     default :
     $error = true;
     $url = "index";
