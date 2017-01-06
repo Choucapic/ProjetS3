@@ -3,18 +3,26 @@ require_once 'mypdo.include.php';
 
 class Club{
 
-	private $refClub = null; 
+	private $refClub = null;
 
-	private $nom = null; 
+	private $nom = null;
 
 	private $adresse = null;
 
 	private $cp = null;
 
-	private $ville = null; 
+	private $ville = null;
 
 	private $numTel = null;
 
+	public function Club($refClub, $nom, $adresse, $cp, $ville, $numTel) {
+		$this->refClub = $refClub;
+		$this->nom = $nom;
+		$this->adresse = $adresse;
+		$this->cp = $cp;
+		$this->ville = $ville;
+		$this->numTel = $numTel;
+	}
 
 	public function setRefClub($refClub){
 		$this->refClub = $refClub;
@@ -79,7 +87,7 @@ SQL
         throw new Exception('Ligne non trouvée !') ;
     }
 
-	
+
 
 	public static function createEmpty(){
 		return new self();

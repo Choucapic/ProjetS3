@@ -1,5 +1,5 @@
 <?php
-require_once 'myPDO.include.php';
+include_once 'mypdo.include.php';
 
 class Categorie{
 
@@ -8,6 +8,12 @@ class Categorie{
 	private $tpsJeu = null;
 
 	private $terrain = null;
+
+	public function Categorie($idCat, $tpsJeu, $terrain) {
+		$this->idCat = $idCat;
+		$this->tpsJeu = $tpsJeu;
+		$this->terrain = $terrain;
+	}
 
 
 	public function setIdCat($idCat){
@@ -50,8 +56,6 @@ SQL
         throw new Exception('Ligne non trouvée !') ;
     }
 
-	}
-
 	public static function createEmpty(){
 		return new self();
 	}
@@ -74,7 +78,7 @@ SQL
 );
             $stmt->execute(array(':idCat' => $this ->idCat,
                                  ':tpsJeu' => $this ->tpsJeu,
-                                 ':terrain' => $this ->terrain;
+                                 ':terrain' => $this ->terrain));
             $this->idCat = myPDO::getInstance()->lastInsertId() ;
     }
 

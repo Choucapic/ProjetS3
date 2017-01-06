@@ -1,21 +1,37 @@
 <?php
-require_once 'myPDO.include.php';
+require_once 'mypdo.include.php';
 
 class Match{
 
-	private $idMatch = null; 
+	private $idMatch = null;
 
-	private $idTerrain = null; 
+	private $idTerrain = null;
 
 	private $idLocal = null;
 
 	private $idVisiteur = null;
 
-	private $idArbitre1 = null; 
+	private $scoreLocal = null;
+
+	private $scoreVisiteur = null;
+
+	private $idArbitre1 = null;
 
 	private $idArbitre2 = null;
 
 	private $idPlage = null;
+
+	public function Match($idMatch, $idTerrain, $idLocal, $idVisiteur, $scoreLocal, $scoreVisiteur, $idArbitre1, $idArbitre2, $idPlage) {
+		$this->idMatch = $idMatch;
+		$this->idTerrain = $idTerrain;
+		$this->idLocal = $idLocal;
+		$this->idVisiteur = $idVisiteur;
+		$this->scoreLocal = $scoreLocal;
+		$this->scoreVisiteur = $scoreVisiteur;
+		$this->idArbitre1 = $idArbitre1;
+		$this->idArbitre2 = $idArbitre2;
+		$this->idPlage = $idPlage;
+	}
 
 
 	public function setIdMatch($idMatch){
@@ -89,8 +105,6 @@ SQL
         throw new Exception('Ligne non trouvée !') ;
     }
 
-	}
-
 	public static function createEmpty(){
 		return new self();
 	}
@@ -120,7 +134,7 @@ SQL
                                  ':idVisiteur' => $this ->idVisiteur,
                                  ':idArbitre1' => $this ->idArbitre1,
                                  ':idArbitre2' => $this ->idArbitre2,
-                                 ':idPlage' => $this ->idPlage;
+                                 ':idPlage' => $this ->idPlage));
             $this->idMatch = myPDO::getInstance()->lastInsertId() ;
     }
 }

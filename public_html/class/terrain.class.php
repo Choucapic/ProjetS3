@@ -1,19 +1,24 @@
 <?php
-require_once 'myPDO.include.php';
+include_once 'mypdo.include.php';
 
 class Terrain{
 
-	private $idTerrain = null; 
+	private $idTerrain = null;
 
-	private $interieur = null; 
+	private $interieur = null;
 
-
-	public function getTpsJeu($interrieur){
-		return $this->interrieur;
+	public function Terrain($idTerrain, $interieur) {
+		$this->idTerrain = $idTerrain;
+		$this->interieur = $interieur;
 	}
 
-	public function setTpsJeu($interrieur){
-		$this->interrieur = $interrieur;
+
+	public function getInterieur($interieur){
+		return $this->interieur;
+	}
+
+	public function setInterieur($interieur){
+		$this->interieur = $interieur;
 	}
 
 	public function getIdTerrain($idTerrain){
@@ -38,7 +43,6 @@ SQL
         }
         throw new Exception('Ligne non trouvée !') ;
     }
-	}
 
 	public static function createEmpty(){
 		return new self();
@@ -61,7 +65,7 @@ SQL
 SQL
 );
             $stmt->execute(array(':idTerrain' => $this ->idTerrain,
-                                 ':interieur' => $this ->interieur;
+                                 ':interieur' => $this ->interieur));
             $this->idTerrain = myPDO::getInstance()->lastInsertId() ;
     }
 }

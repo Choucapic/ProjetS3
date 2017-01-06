@@ -1,5 +1,7 @@
 <?php
 
+include_once 'mypdo.include.php';
+
 class Equipe{
 
 	protected $idEquipe= null;
@@ -8,20 +10,44 @@ class Equipe{
 	protected $idCat= null;
 	protected $name = null;
 
-	public function getIdEquipe{
+	public function Equipe($idEquipe, $idCoach, $refClub, $idCat, $name) {
+		$this->idEquipe = $idEquipe;
+		$this->idCoach = $idCoach;
+		$this->refClub = $refClub;
+		$this->idCat = $idCat;
+		$this->name = $name;
+	}
+
+	public function getIdEquipe(){
 		return $this->idEquipe;
 	}
-	public function getIdCoach{
+	public function getIdCoach(){
 		return $this->idCoach;
 	}
-	public function getRefClub{
+	public function getRefClub(){
 		return $this->refClub;
 	}
-	public function getIdCat{
+	public function getIdCat(){
 		return $this->idCat;
 	}
-	public function getName{
+	public function getName(){
 		return $this->name;
+	}
+
+	public function setIdEquipe($idEquipe){
+		$this->idEquipe = $idEquipe;
+	}
+	public function setIdCoach($idCoach){
+		$this->idCoach = $idCoach;
+	}
+	public function setRefClub($refClub){
+		$this->refClub = $refClub;
+	}
+	public function setIdCat($idCat){
+		$this->idCat = $idCat;
+	}
+	public function setName($name){
+		$this->name = $name;
 	}
 
 	public static function createFromId($idEquipe){
@@ -39,7 +65,7 @@ SQL
         $this->name = $this->refClub . $this->idCat ;
         throw new Exception('Equipa non trouvée !') ;
     }
-  
+
 
   public static function createEmpty(){
     return new self();
