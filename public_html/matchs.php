@@ -1,100 +1,151 @@
 <?php
 
 session_start();
-
+/*
+Modifier l'affichage des matchs
+Modifier type saisie input pour la plage horaire
+*/
 include_once 'class/webpage.class.php';
 include_once 'class/mypdo.include.php';
+include_once 'class/match.class.php';
 
 $page = new WebPage('Gestion des matchs');
-
 $page->appendCss(<<<CSS
+  nav{
+    margin-right:25%;
+    margin-left:25%;
+  }
 CSS
 );
+
 if(isset($_SESSION['login'])){
     if($_SESSION['type'] == 'Organisateur'){
 
        if(isset($_GET['option'])) {$option = $_GET['option']; }
         else { $option = "afficher"; }
       $page->appendContent(<<<HTML
-        <div class="container">
-          <nav>
-            <div class="nav-wrapper blue darken-3">
-              <ul id="nav-mobile" class="right col">
+
 HTML
 );
       switch($option){
         case "afficher" :
+
         $page->appendContent(<<<HTML
-          <li class ="active" ><a href="matchs.php?option=afficher">Afficher les matchs</a></li>
-          <li ><a href="matchs.php?option=ajouter"> Ajouter match </a></li>
-                  <li> <a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
-          <div class="container">
-            <h5 class="center"> Affichage des matchs </h5>
-            <div class="content">
+        <nav>
+          <ul>
+            <li class="active"> <a href="matchs.php?option=afficher">Afficher les matchs</a></li>
+            <li> <a href="matchs.php?option=ajouter"> Ajouter match </a></li>
+            <li><a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
+          </ul>
+        </nav>
+              <div class="container">
+              <table>
+                <thead>
+                  <tr>
+                      <th data-field="numéro">Numéro</th>
+                      <th data-field="local">Equipe 1</th>
+                      <th data-field="visiteur">Equipe 2</th>
+                      <th data-field="Terrain">Terrain</th>
+                      <th data-field="arbitre 1">Arbitre 1 </th>
+                      <th data-field="arbitre 2 ">Arbitre 2 </th>
+                      <th data-field="plage"> Heure du match</th>
+                  </tr>
+                </thead>
+                <tbody>
+HTML
+);
+        $matchs = Match::getAll();
+        foreach($match : $matchs){
+          $page->appendContent{<<<HTML
+            <td>{$match->getIdMatch()}</td>
+            <td>{$match->getIdLocal()}</td>
+            <td>{$match->getvisiteur()}</td>
+            <td>{$match->getIdTerrain()}</td>
+            <td>{$match->getIdArbitre1()}</td>
+            <td>{$match->getIdArbitre2()}</td>
+            <td>{$match->getIdPlage()}</td>
+HTML
+);
+          }
+        }
+
+        $page-append(<<<HTML
+                </tbody>
+              </table>
             </div>
-          </div>
 
 HTML
 );
     break;
+
       case "ajouter" :
       $page->appendContent(<<<HTML
-      ///A finir !
-            <li ><a href="matchs.php?option=afficher">Afficher les matchs</a></li>
-            <li class="active" ><a href="matchs.php?option=ajouter"> Ajouter match </a></li>
-            <li ><a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
-            <div>
-                <h5 class="center active"> Ajouter des matchs </h5>
-                <div>
-                  <ul id="labels">
-                    <li>
-                    <label for="idEquipe">Identifiant Equipe </label>
-                    <input type="text" name="idEquipe" class="validate" required/>
-                    </li>
-                    <li>
-                    <label for="idCoach">Identifiant Coach</label>
-                    <input type="text" name="idCoach" class="validate" required/>
-                    </li>
-                    <li>
-                    <label for="refClub">Référence du Club</label>
-                    <input type="text" name="refClub" class="validate" required/>
-                    </li>
-                    <li>
-                    <label for="idCat">Catégorie</label>
-                    <input type="text" name="idCat" class="validate" required/>
-                    </li>
-                    <li>
-                    <label for="name">Nom</label>
-                    <input type="text" name="name" class="validate" required/>
-                    <li>
-                  </ul>
-                </div>
+        <nav>
+          <ul>
+            <li> <a href="matchs.php?option=afficher">Afficher les matchs</a></li>
+            <li class="active"> <a href="matchs.php?option=ajouter"> Ajouter match </a></li>
+            <li><a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
+          </ul>
+        </nav>
+        </div>
+            <div class="container">
+
+                <form class="form" method="POST" action="script.php" class="col s12">
+            			<div class="row">
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="local" class="validate" required/>
+              					<label for="nom">Equipe n°1</label>
+              				</div>
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="visiteur" class="validate" required/>
+              					<label for="refClub">Equipe n°2</label>
+              				</div>
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="idTerrain" class="validate" required/>
+              					<label for="adresse">Identifiant du terrain choisi</label>
+              				</div>
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="arbitre 1" class="validate" required/>
+              					<label for="cp">Arbitre n°1</label>
+              				</div>
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="arbitre 2" class="validate" required/>
+              					<label for="ville">Arbitre n°2</label>
+              				</div>
+              				<div class="input-field col s12 m6">
+              					<input type="text" name="plage" class="validate" required/>
+              					<label for="numTel">Plage horaire</label>
+              				</div>
+              				<input type="hidden" name="type" value="insMatch"/>
+                  </div>
+              	  <div class="btn-auth">
+            		    <button class="btn blue darken-3 waves-effect waves-light" type="submit" name="action"> Ajouter le match</button>
+            		</div>
+            	</form>
             </div>
 HTML
 );
     break;
+
         case "modifier" :
           $page->appendContent(<<<HTML
-          <li ><a href="matchs.php?option=afficher">Afficher les matchs</a></li>
-          <li ><a href="matchs.php?option=ajouter"> Ajouter match </a></li>
-          <li class="active"><a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
-          </div>
+          <nav>
+            <ul>
+              <li> <a href="matchs.php?option=afficher">Afficher les matchs</a></li>
+              <li> <a href="matchs.php?option=ajouter"> Ajouter match </a></li>
+              <li class="active"><a href="matchs.php?option=modifier"> Modifier les données des matchs </a></li>
+            </ul>
+          </nav>
+
           <div class="container">
             <h5 class="center"> modifier des matchs </h5>
           </div>
 HTML
 );
               break;
-        }
-        $page->appendContent(<<<HTML
-        </ul>
-        </div>
-        </nav>
-        </div>
-HTML
-);
 
         }
+      }
     else
     {
     $page->appendContent(<<<HTML

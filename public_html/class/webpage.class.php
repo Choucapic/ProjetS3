@@ -275,6 +275,7 @@ HTML
         <link rel="stylesheet" href="css/index.css">
         <script src="js/index.js"></script>
 
+
 {$this->head()}
     </head>
     <body>

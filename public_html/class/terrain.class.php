@@ -7,10 +7,10 @@ class Terrain{
 
 	private $interieur = null;
 
-	public function Terrain($idTerrain, $interieur) {
+	/*public function Terrain($idTerrain, $interieur) {
 		$this->idTerrain = $idTerrain;
 		$this->interieur = $interieur;
-	}
+	}*/
 
 
 	public function getInterieur($interieur){
@@ -67,5 +67,22 @@ SQL
             $stmt->execute(array(':idTerrain' => $this ->idTerrain,
                                  ':interieur' => $this ->interieur));
             $this->idTerrain = myPDO::getInstance()->lastInsertId() ;
+    }
+
+    public static function getAllTerrains(){
+    	$stmt = myPDO::getInstance()->prepare(<<<SQL
+            SELECT idTerrain, interieur
+            FROM terrain
+SQL
+        ) ;
+        $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+        $stmt->execute() ;
+        $arr= "'Terrain ";
+        while (($object = $stmt->fetch()) !== false) {
+            $arr.= $object->getIdTerrain()."', 'Terrain " ;
+        }
+        $arr.= "'";
+        return $arr;
+        throw new Exception('Pas de terrain') ;
     }
 }

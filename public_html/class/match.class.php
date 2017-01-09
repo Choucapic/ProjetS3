@@ -22,16 +22,33 @@ class Match{
 	private $idPlage = null;
 
 	public function Match($idMatch, $idTerrain, $idLocal, $idVisiteur, $scoreLocal, $scoreVisiteur, $idArbitre1, $idArbitre2, $idPlage) {
-		$this->idMatch = $idMatch;
-		$this->idTerrain = $idTerrain;
-		$this->idLocal = $idLocal;
-		$this->idVisiteur = $idVisiteur;
-		$this->scoreLocal = $scoreLocal;
-		$this->scoreVisiteur = $scoreVisiteur;
-		$this->idArbitre1 = $idArbitre1;
-		$this->idArbitre2 = $idArbitre2;
-		$this->idPlage = $idPlage;
-	}
+			$this->idMatch = $idMatch;
+			$this->idTerrain = $idTerrain;
+			$this->idLocal = $idLocal;
+			$this->idVisiteur = $idVisiteur;
+			$this->scoreLocal = $scoreLocal;
+			$this->scoreVisiteur = $scoreVisiteur;
+			$this->idArbitre1 = $idArbitre1;
+			$this->idArbitre2 = $idArbitre2;
+			$this->idPlage = $idPlage;
+		}
+
+		public static function recursiveMatch($matchs, $id) {
+			 $result = array();
+			 $nombreMatchs = count($matchs);
+			 for ($i = 0; $i < $nombreMatchs; $i = $i+2) {
+		     array_push($result, new Match($id, 1, $matchs[$i]->isWinner(), $matchs[$i+1]->isWinner(), 0, 0, 1, 2, 'Plage'));
+				 $id++;
+			 }
+			 $nombreMatchs /= 2;
+			 if ($nombreMatchs > 1) {
+				 $newMatchs = Match::recursiveMatch($result, $id);
+				 foreach ($newMatchs as $newMatch) {
+					 array_push($result, $newMatch);
+				 }
+			 }
+			 return $result;
+		}
 
 
 	public function setIdMatch($idMatch){
@@ -88,6 +105,29 @@ class Match{
 
 	public function getIdPlage(){
 		return $this->idPlage;
+	}
+
+	public function isWinner() {
+		if ($this->scoreLocal == $this->scoreVisiteur) {
+			$result = ($this->scoreLocal == 0 && $this->scoreVisiteur == 0) ? 'TBD' : 'Equality';
+		} else {
+			$result = ($this->scoreLocal > $this->scoreVisiteur) ? $this->idLocal : $this->idVisiteur;
+		}
+		return $result;
+	}
+
+	public function getAllMatchs(){
+		$stmt = myPDO::getInstance()->prepare(<<<SQL
+					 SELECT idMatch, idTerrain, idLocal, idVisiteur, idArbitre1, idArbitre2, idPlage
+					 FROM Match
+SQL
+);
+	 	$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
+		$stmt->execute();
+		if (($object = $stmt->fetch()) !== false) {
+				return $object ;
+		}
+		throw new Exception('Ligne non trouvée !') ;
 	}
 
 	public static function createFromId($idMatch){
