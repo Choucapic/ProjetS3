@@ -34,26 +34,42 @@ $equipe15 = new Equipe(15, 1, 1, 'Bons', 'Equipe 15');
 $equipe16 = new Equipe(16, 1, 1, 'Bons', 'Equipe 16');
 $equipes = array($equipe1, $equipe2, $equipe3, $equipe4, $equipe5, $equipe6, $equipe7, $equipe8, $equipe9, $equipe10, $equipe11, $equipe12, $equipe13, $equipe14, $equipe15, $equipe16);
 foreach ($categories as $categorie) {
- $equipesCat = array();
+  $equipesCat = array();
+  $matchs = array();
  foreach ($equipes as $equipe) {
    if ($equipe->getIdCat() == $categorie->getIdCat()) {
      array_push($equipesCat, $equipe);
    }
  }
- $matchs = array();
+
  $nombreEquipes = count($equipesCat);
  if ($nombreEquipes%2 == 0 && $nombreEquipes%3 != 0) {
    for ($i = 0; $i < $nombreEquipes; $i = $i+2) {
      array_push($matchs, new Match($i/2, 1, $equipesCat[$i]->getIdEquipe(), $equipesCat[$i+1]->getIdEquipe(), 0, 0, 1, 2, 'Plage'));
    }
    $nombreEquipes /= 2;
-   $counter = 0;
    $idMatch = count($matchs);
    $newMatchs = Match::recursiveMatch($matchs, $idMatch);
    foreach ($newMatchs as $newMatch) {
      array_push($matchs, $newMatch);
    }
-   var_dump($matchs);
+   $HTML = "";
+   $counter = 0;
+   $divider = 2;
+   foreach ($matchs as $match) {
+     if ($counter == 0) {
+       $HTML .= "<p>";
+     }
+     if ($counter < count($equipesCat)/$divider) {
+       $HTML .= " | " . $match->getIdLocal() . " VERSUS " . $match->getIdVisiteur() . " | ";
+     }
+     $counter++;
+     if ($counter == count($equipesCat)/$divider) {
+       $counter = 0;
+       $divider *= 2;
+       $HTML .= "</p>";
+     }
+   }
  } else {
 
  }
@@ -65,7 +81,7 @@ $page->appendContent(<<<HTML
 
 <div class="container">
 
-
+{$HTML}
 
 </div>
 HTML
