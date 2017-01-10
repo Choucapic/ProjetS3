@@ -116,24 +116,23 @@ class Match{
 		return $result;
 	}
 
-	public function getAllMatchs(){
+	public static function getAllMatchs(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
-					 SELECT idMatch, idTerrain, idLocal, idVisiteur, idArbitre1, idArbitre2, idPlage
-					 FROM Match
+		SELECT *
+		FROM match
+		ORDER BY 1
 SQL
-);
-	 	$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
+	);
 		$stmt->execute();
-		if (($object = $stmt->fetch()) !== false) {
-				return $object ;
-		}
-		throw new Exception('Ligne non trouvée !') ;
-	}
+	 	$stmt->setFetchMode(PDO::FETCH_CLASS,'Match');
+		return $stmt->fetchAll();
+}
+
 
 	public static function createFromId($idMatch){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMatch, idTerrain, idLocal, idVisiteur, idArbitre1, idArbitre2, idPlage
-            FROM Match
+            FROM match
             WHERE idMatch = ?
 SQL
         ) ;
