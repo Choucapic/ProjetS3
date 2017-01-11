@@ -1,15 +1,15 @@
 <?php
-#Caroussel
-#Mise en page de l'acceuil
 
 session_start();
-/*
-Modifier l'affichage des matchs
-Modifier type saisie input pour la plage horaire
-*/
+
 include_once 'class/webpage.class.php';
 include_once 'class/mypdo.include.php';
 require_once 'class/match.class.php';
+require_once 'class/equipe.class.php';
+require_once 'class/club.class.php';
+require_once 'class/categorie.class.php';
+require_once 'class/arbitre.class.php';
+require_once 'class/plage.class.php';
 
 $page = new WebPage('Gestion des matchs');
 $page->appendCss(<<<CSS
@@ -48,7 +48,6 @@ HTML
         <nav>
             <ul class="brand-logo center">
               <li class="active"><a href="matchs.php?option=afficher"><i class="material-icons">tab</i>Afficher les matchs</a></li>
-              <li><a href="matchs.php?option=ajouter"><i class="material-icons">library_add</i>Ajouter match </a></li>
               <li><a href="matchs.php?option=modifier"><i class="material-icons">settings</i> Modifier les données des matchs </a></li>
             </ul>
         </nav>
@@ -68,21 +67,33 @@ HTML
                 <tbody>
 HTML
 );
-        /*$matchs = Match::getAllMatchs();
+        $matchs = Match::getAllMatchs();
 
-        foreach($match as $matchs){
+        foreach($matchs as $match){
+
+          $equipe1 = Equipe::createFromId($match->getIdLocal());
+          $club1 = Club::createFromId($equipe1->getRefClub());
+          $equipe2 = Equipe::createFromId($match->getIdVisiteur());
+          $club2 = Club::createFromId($equipe2->getRefClub());
+          $arbitre1 = Arbitre::createFromId($match->getIdArbitre1());
+          $arbitre2 = Arbitre::createFromId($match->getIdArbitre1());
+          $plage = Plage::createFromId($match->getIdPlage());
+
+
           $page->appendContent(<<<HTML
+          <tr>
             <td>{$match->getIdMatch()}</td>
-            <td>{$match->getIdLocal()}</td>
-            <td>{$match->getvisiteur()}</td>
+            <td>{$club1->getNom()} {$equipe1->getIdCat()}</td>
+            <td>{$club2->getNom()} {$equipe1->getIdCat()}</td>
             <td>{$match->getIdTerrain()}</td>
-            <td>{$match->getIdArbitre1()}</td>
-            <td>{$match->getIdArbitre2()}</td>
-            <td>{$match->getIdPlage()}</td>
+            <td>{$arbitre1->getNom()}  {$arbitre1->getPrenom()}</td>
+            <td>{$arbitre2->getNom()}  {$arbitre2->getPrenom()}</td>
+            <td>{$plage->getHDeb()} à {$plage->getHFin()}</td>
+            </tr>
 HTML
 );
           }
-*/
+
         $page->appendContent(<<<HTML
                 </tbody>
               </table>
@@ -92,7 +103,7 @@ HTML
 );
     break;
     ################      AJOUT     ###############
-      case "ajouter" :
+/*      case "ajouter" :
       $page->appendContent(<<<HTML
         <nav>
           <ul class="brand-logo center">
@@ -143,6 +154,7 @@ HTML
             </div>
 HTML
 );
+*/
     break;
     ################      MODIFICATION     ###############
         case "modifier" :
@@ -150,7 +162,6 @@ HTML
           <nav>
             <ul class="brand-logo center">
               <li><a href="matchs.php?option=afficher"><i class="material-icons">tab</i>Afficher les matchs</a></li>
-              <li><a href="matchs.php?option=ajouter"><i class="material-icons">library_add</i> Ajouter match </a></li>
               <li class="active"><a href="matchs.php?option=modifier"><i class="material-icons">settings</i> Modifier les données des matchs </a></li>
             </ul>
           </nav>
@@ -158,11 +169,15 @@ HTML
             <form class="form" method="POST" action="script.php" class="col s12" >
               <div class="row">
                   <div class="input-field col s12 m6">
-                    <input type="text" name="local" class="validate" required/>
+                    <input type="text" name="identifiant" class="validate" required/>
+                    <label for="visiteur">Reference du match</label>
+                  </div>
+                  <div class="input-field col s12 m6">
+                    <input type="text" name="score_1" class="validate" required/>
                     <label for="local">Score Equipe n°1</label>
                   </div>
                   <div class="input-field col s12 m6">
-                    <input type="text" name="visiteur" class="validate" required/>
+                    <input type="text" name="score_2" class="validate" required/>
                     <label for="visiteur">Score Equipe n°2</label>
                   </div>
                   <input type="hidden" name="type" value="insMatch"/>

@@ -15,7 +15,7 @@ class Club{
 
 	private $numTel = null;
 
-	public function Club($refClub, $nom, $adresse, $cp, $ville, $numTel) {
+	/*public function Club($refClub, $nom, $adresse, $cp, $ville, $numTel) {
 		$this->refClub = $refClub;
 		$this->nom = $nom;
 		$this->adresse = $adresse;
@@ -23,7 +23,7 @@ class Club{
 		$this->ville = $ville;
 		$this->numTel = $numTel;
 	}
-
+*/
 	public function setRefClub($refClub){
 		$this->refClub = $refClub;
 	}
@@ -75,7 +75,7 @@ class Club{
 	public static function createFromId($refClub){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT refClub, nom, adresse, cp, ville, numTel
-            FROM Club
+            FROM `club`
             WHERE refClub = ?
 SQL
         ) ;

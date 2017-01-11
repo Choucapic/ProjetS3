@@ -4,20 +4,19 @@ include_once 'mypdo.include.php';
 
 class Equipe{
 
-	protected $idEquipe= null;
-	protected $idCoach= null;
-	protected $refClub= null;
-	protected $idCat= null;
+	protected $idEquipe = null;
+	protected $idCoach = null;
+	protected $refClub = null;
+	protected $idCat = null;
 	protected $name = null;
-
-	public function Equipe($idEquipe, $idCoach, $refClub, $idCat, $name) {
+	/* public function Equipe($idEquipe, $idCoach, $refClub, $idCat, $name) {
 		$this->idEquipe = $idEquipe;
 		$this->idCoach = $idCoach;
 		$this->refClub = $refClub;
 		$this->idCat = $idCat;
 		$this->name = $name;
 	}
-
+*/
 	public function getIdEquipe(){
 		return $this->idEquipe;
 	}
@@ -50,10 +49,22 @@ class Equipe{
 		$this->name = $name;
 	}
 
+	public static function getAllEquipes(){
+		$stmt = myPDO::getInstance()->prepare(<<<SQL
+		SELECT *
+		FROM `equipe`
+		ORDER BY 1
+SQL
+	);
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
+				return $stmt->fetchAll();
+}
+
 	public static function createFromId($idEquipe){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idEquipe, idCoach, refClub, idCat
-            FROM Equipe
+            FROM `equipe`
             WHERE idEquipe = ?
 SQL
         ) ;
@@ -63,7 +74,7 @@ SQL
             return $object ;
         }
         $this->name = $this->refClub . $this->idCat ;
-        throw new Exception('Equipa non trouvée !') ;
+        throw new Exception('Equipe non trouvée !') ;
     }
 
 

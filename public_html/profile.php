@@ -52,7 +52,7 @@ SQL
             break;
           }
 
-          $items .= '<div class="colprofile col l4 m6 s12"> <p> <span class="profilekey">' . $key . ' :</span> <br>' . $value . '</p></div>';
+          $items .= '<div class="col l4 m6 s12"> <p> <span class="profilekey blue darken-1">' . $key . ' :</span> <br>' . $value . ' </p> </div>';
         }
     }
   }

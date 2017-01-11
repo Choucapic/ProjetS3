@@ -180,7 +180,7 @@ HTML
 
             case 'Organisateur':
             $menuType = '
-              <li><a class="waves-effect" href="#!"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion équipes</a></li>
+              <li><a class="waves-effect" href="../equipe.php"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion équipes</a></li>
               <li><a class="waves-effect" href="../matchs.php"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion des matchs</a></li>
             ';
             break;

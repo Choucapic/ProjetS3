@@ -8,13 +8,13 @@ class Categorie{
 	private $tpsJeu = null;
 
 	private $terrain = null;
-
+/*
 	public function Categorie($idCat, $tpsJeu, $terrain) {
 		$this->idCat = $idCat;
 		$this->tpsJeu = $tpsJeu;
 		$this->terrain = $terrain;
 	}
-
+*/
 
 	public function setIdCat($idCat){
 		$this->idCat = $idCat;
@@ -44,7 +44,7 @@ class Categorie{
 	public static function createFromId($idCat){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idCat, tpsJeu, terrain
-            FROM Categorie
+            FROM `categorie`
             WHERE idCat = ?
 SQL
         ) ;

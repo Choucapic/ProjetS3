@@ -13,7 +13,7 @@ class Terrain{
 	}*/
 
 
-	public function getInterieur($interieur){
+	public function getInterieur(){
 		return $this->interieur;
 	}
 
@@ -21,7 +21,7 @@ class Terrain{
 		$this->interieur = $interieur;
 	}
 
-	public function getIdTerrain($idTerrain){
+	public function getIdTerrain(){
 		return $this->idTerrain;
 	}
 
@@ -32,7 +32,7 @@ class Terrain{
 	public static function createFromId($idTerrain){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idTerrain, interieur
-            FROM Terrain
+            FROM `terrain`
             WHERE idTerrain = ?
 SQL
         ) ;
@@ -72,7 +72,7 @@ SQL
     public static function getAllTerrains(){
     	$stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idTerrain, interieur
-            FROM terrain
+            FROM `terrain`
 SQL
         ) ;
         $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;

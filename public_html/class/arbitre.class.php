@@ -1,12 +1,12 @@
 <?php
-
+require_once 'class/membre.class.php';
 class Arbitre extends Membre{
 
 
   protected $numTel;
-  
+
   protected $numLicence;
-  
+
   protected $niveauMax;
 
   public function getNumTel(){
@@ -24,7 +24,7 @@ class Arbitre extends Membre{
   public function setNumLicence($numLicence){
     $this->numLicence = $numLicence;
   }
-  
+
   public function getNiveauMax(){
     return $this->niveauMax;
   }
@@ -35,8 +35,8 @@ class Arbitre extends Membre{
 
   public static function createFromId($idMembre){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
-            SELECT idMembre, nom, prnm, mail, numTel, numLicence, niveauMax
-            FROM Membre
+            SELECT idMembre, nom, prnm, mail, numTel, numLicence, niveauArbitre
+            FROM `membre`
             WHERE idMembre = ?
               AND Type = 'Arbitre'
 SQL
@@ -48,7 +48,6 @@ SQL
         }
         throw new Exception('Ligne non trouvée !') ;
     }
-  }
 
   public static function createEmpty(){
     return new self();
@@ -76,7 +75,7 @@ SQL
                          ':mail' => $this ->mail,
                          ':numTel' => $this ->numTel,
                          ':numLicence' => $this ->numLicence,
-                         ':niveauMax' => $this ->niveauMax;
+                         ':niveauMax' => $this ->niveauMax));
             $this->idMembre = myPDO::getInstance()->lastInsertId() ;
     }
 }

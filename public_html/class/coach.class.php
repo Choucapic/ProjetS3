@@ -15,7 +15,7 @@ class Coach extends Membre{
   public static function createFromId($idMembre){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMembre, nom, prnm, mail, numTel
-            FROM Membre
+            FROM `membre`
             WHERE idMembre = ?
               AND Type = 'Coach'
 SQL

@@ -11,7 +11,7 @@ class Joueur extends Membre{
   public static function createFromId($idMembre){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMembre, nom, prnm, mail, numLicence
-            FROM Membre
+            FROM `membre`
             WHERE idMembre = ?
               AND Type = 'Coach'
 SQL
@@ -41,7 +41,7 @@ SQL
 
   public function save(){
     $stmt = myPDO::getInstance()->prepare(<<<SQL
-                REPLACE INTO `Membre`(`idMembre`, `nom`, `prnm`, `mail`, `numLicence`)
+                REPLACE INTO `membre`(`idMembre`, `nom`, `prnm`, `mail`, `numLicence`)
                                VALUES (:idMembre, :nom, :prnm, :mail, :numLicence)
 SQL
 );
@@ -49,7 +49,7 @@ SQL
                          ':nom' => $this ->nom,
                          ':prnm' => $this ->prnm,
                          ':mail' => $this ->mail,
-                         ':numLicence' => $this ->numLicence;
+                         ':numLicence' => $this ->numLicence));
             $this->idMembre = myPDO::getInstance()->lastInsertId() ;
     }
   

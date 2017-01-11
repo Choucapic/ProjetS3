@@ -21,7 +21,7 @@ class Match{
 
 	private $idPlage = null;
 
-	public function Match($idMatch, $idTerrain, $idLocal, $idVisiteur, $scoreLocal, $scoreVisiteur, $idArbitre1, $idArbitre2, $idPlage) {
+/*	public function Match($idMatch, $idTerrain, $idLocal, $idVisiteur, $scoreLocal, $scoreVisiteur, $idArbitre1, $idArbitre2, $idPlage) {
 			$this->idMatch = $idMatch;
 			$this->idTerrain = $idTerrain;
 			$this->idLocal = $idLocal;
@@ -32,12 +32,13 @@ class Match{
 			$this->idArbitre2 = $idArbitre2;
 			$this->idPlage = $idPlage;
 		}
+*/
 
 		public static function recursiveMatch($matchs, $id) {
 			 $result = array();
 			 $nombreMatchs = count($matchs);
 			 for ($i = 0; $i < $nombreMatchs; $i = $i+2) {
-		     array_push($result, new Match($id, 1, $matchs[$i]->isWinner(), $matchs[$i+1]->isWinner(), 0, 0, 1, 2, 'Plage'));
+		     array_push($result, new Match($id, 1, $matchs[$i]->isWinner(), $matchs[$i+1]->isWinner(), 1, 0, 1, 2, 'Plage'));
 				 $id++;
 			 }
 			 $nombreMatchs /= 2;
@@ -119,29 +120,29 @@ class Match{
 	public static function getAllMatchs(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
 		SELECT *
-		FROM match
+		FROM `match`
 		ORDER BY 1
 SQL
 	);
 		$stmt->execute();
-	 	$stmt->setFetchMode(PDO::FETCH_CLASS,'Match');
-		return $stmt->fetchAll();
+	 	$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
+        return $stmt->fetchAll();
 }
 
 
 	public static function createFromId($idMatch){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMatch, idTerrain, idLocal, idVisiteur, idArbitre1, idArbitre2, idPlage
-            FROM match
+            FROM `match`
             WHERE idMatch = ?
 SQL
         ) ;
-        $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
         $stmt->execute(array($idMatch)) ;
+				$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
         if (($object = $stmt->fetch()) !== false) {
             return $object ;
         }
-        throw new Exception('Ligne non trouvée !') ;
+        throw new Exception('match non trouvée !') ;
     }
 
 	public static function createEmpty(){

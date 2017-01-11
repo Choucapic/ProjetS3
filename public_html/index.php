@@ -1,17 +1,10 @@
 <?php
-
 session_start();
-
 include_once 'class/webpage.class.php';
-
 $page = new WebPage('Amicale des jeunes de Betheny');
-
 $page->appendContent(<<<HTML
-
 <div class="container">
-
   <h5 class="center">Bienvenue !</h5>
-
   <div class="carousel">
     <a class="carousel-item" href="#one!"><img src="img/1.jpg"></a>
     <a class="carousel-item" href="#two!"><img src="img/2.jpg"></a>
@@ -42,6 +35,4 @@ $(document).ready(function(){
     });
 JS
 );
-
-
 echo $page->toHTML();
