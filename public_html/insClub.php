@@ -7,7 +7,7 @@ include_once 'class/webpage.class.php';
 $page = new WebPage('Inscription de Club');
 
 if (isset($_SESSION['login'])) {
-	if ($_SESSION['type'] == 'Administrateur') {
+	if ($_SESSION['type'] == 'Administrateur' || $_SESSION['type'] == 'Organisateur') {
 
 
 		$page->appendCss(<<<CSS

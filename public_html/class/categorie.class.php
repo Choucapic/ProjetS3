@@ -85,7 +85,7 @@ SQL
 		public static function getAll(){
         $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idCat, tpsJeu, terrain
-            FROM Categorie
+            FROM categorie
 						WHERE idCat != ' '
 SQL
         ) ;

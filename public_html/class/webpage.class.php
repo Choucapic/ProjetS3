@@ -329,9 +329,17 @@ HTML
             {$urlProfile}
             {$urlConnect}
             <!-- lien vers planning -->
-            <li><a href="planning.php" class="waves-effect"><i class="fa fa-table fa-2x" aria-hidden="true"></i>Planning des matchs</a></li>
-
-
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-table fa-2x" aria-hidden="true"></i>Tournoi
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="planning.php" class="waves-effect">Voir le Tournoi</a>
+                  <a href="demo.php" class="waves-effect">Voir les horaires</a>
+                </div>
+              </li>
+            </ul>
             <li><div class="divider"></div></li>
             <li><a class="subheader center">Subheader</a></li>
             {$menuType}

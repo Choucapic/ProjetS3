@@ -185,7 +185,7 @@ SQL
 
 	public function save(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
-                REPLACE INTO `Match`(`idMatch`,`idTerrain`, `idLocal`,
+                REPLACE INTO `match`(`idMatch`,`idTerrain`, `idLocal`,
 									 `idVisiteur`,`scoreLocal`, `scoreVisiteur`, `idArbitre1`,`idArbitre2`, `idPlage`, `idNextMatch`)
                                VALUES (:idMatch, :idTerrain, :idLocal, :idVisiteur, :scoreLocal, :scoreVisiteur, :idArbitre1, :idArbitre2, :idPlage, :idNextMatch)
 SQL

@@ -8,7 +8,7 @@ include_once 'class/mypdo.include.php';
 $page = new WebPage('Inscription d\'Equipe');
 
 if (isset($_SESSION['login'])) {
-	if ($_SESSION['type'] == 'Administrateur') {
+	if ($_SESSION['type'] == 'Administrateur' ||$_SESSION['type'] == 'Organisateur') {
 
 
     // For coachs
@@ -32,6 +32,7 @@ SQL
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT refClub, nom
             FROM club
+            WHERE refClub != 0
 SQL
 );
         $stmt->execute(array()) ;
@@ -48,6 +49,7 @@ SQL
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idCat
             FROM categorie
+            WHERE idCat != ' '
 SQL
 );
         $stmt->execute(array()) ;

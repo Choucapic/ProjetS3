@@ -8,7 +8,7 @@ include_once 'class/mypdo.include.php';
 $page = new WebPage('Visualisation des Clubs');
 
 if (isset($_SESSION['login'])) {
-	if ($_SESSION['type'] == 'Administrateur') {
+	if ($_SESSION['type'] == 'Administrateur' || $_SESSION['type'] == 'Organisateur') {
 
     // For clubs
     $stmt = myPDO::getInstance()->prepare(<<<SQL
