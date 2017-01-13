@@ -3,9 +3,12 @@
 session_start();
 
 include_once'class/webpage.class.php';
+include_once'class/match.class.php';
+include_once'class/terrain.class.php';
+include_once'class/mypdo.include.php';
+include_once'class/equipe.class.php';
 
 $page = new Webpage('planning des matchs');
-//$page->appendJsUrl("http://code.jquery.com/jquery-1.7.1.min.js");
 
 $page->appendCss(<<<CSS
 
@@ -44,19 +47,90 @@ CSS
 );
 $page->appendJsUrl('js/jquery.gracket.min.js');
 
+// Récupérer les terrains
+$terrains = array();
+$stmt = myPDO::getInstance()->prepare(<<<SQL
+          SELECT idTerrain
+          FROM `terrain`
+SQL
+      ) ;
+$stmt->execute();
+while (($object = $stmt->fetch()) !== false) {
+     array_push($terrains, $object['idTerrain']);
+}
+
+// Récupérer les équipes
+$equipes = Equipe::getAll();
+
+
+$HTML = "";
+$HTMLpage = "";
+$numTournoi = 0;
+// Algorithme
+foreach ($terrains as $idTerrain) {
+  $matchs = array();
+  $equipesCat = array();
+  $stmt = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM `match`
+            WHERE idTerrain = {$idTerrain}
+SQL
+        ) ;
+  $stmt->execute();
+  $stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,'Match');
+  while (($object = $stmt->fetch()) !== false) {
+       array_push($matchs, $object);
+       if ($object->getIdLocal() != '0' && !in_array($object->getIdLocal(), $equipesCat)) {
+         array_push($equipesCat, $object->getIdLocal());
+       }
+       if ($object->getIdVisiteur() != '0' && !in_array($object->getIdVisiteur(), $equipesCat)) {
+         array_push($equipesCat, $object->getIdVisiteur());
+       }
+  }
+  if (count($matchs) != 0) {
+    $HTML .= 'win.Tournoi'.$numTournoi.' = [';
+    $counter = 0;
+    $divider = 2;
+    foreach ($matchs as $match) {
+     if ($counter == 0) {
+       $HTML .= ' [';
+     }
+     if ($counter < count($equipesCat)/$divider) {
+       $HTML .= ' [ {"name" : "' . Equipe::createFromId($match->getIdLocal())->getName() . '", "id" : "'. $match->getIdLocal() . '", "seed" : '. intval($match->getIdLocal()) . ', "score" : '. intval($match->getScoreLocal()) . ' }, { "name" : "' . Equipe::createFromId($match->getIdVisiteur())->getName() . '", "id" : "'. $match->getIdVisiteur() . '", "seed" : '. intval($match->getIdVisiteur()) . ', "score" : '. intval($match->getScoreVisiteur()) . ' } ]';
+     }
+     $counter++;
+     if ($counter == count($equipesCat)/$divider) {
+       if (count($equipesCat)/$divider == 1) {
+        $HTML .= '],[ [ {"name" : "' . Equipe::createFromId($match->isWinner())->getName() .'", "id" : "'. $match->isWinner(). '", "seed" : '.intval($match->isWinner()).'} ]';
+        $HTML .= "]";
+      } else {
+        $HTML .= "],";
+      }
+       $counter = 0;
+       $divider *= 2;
+     } else {
+       $HTML .= ',';
+     }
+ }
+ $HTML .= ']; $(".tournoi'.$numTournoi.'").gracket({ src : win.Tournoi'.$numTournoi.' });';
+ $HTMLpage .= '<div class="tournoi'.$numTournoi.'"></div>';
+ $numTournoi++;
+}
+}
+
 $page->appendContent(<<<HTML
 
-<div class="my_gracket"></div>
+{$HTMLpage}
 
 <script type="text/javascript">
   (function(win, doc, $){
 
-
-
+{$HTML}
+/*
     // Fake Data
     win.TestData = [
       [
-        [ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1, "displaySeed": "D1", "score" : 47 }, {"name" : "Andrew Miller", "id" : "andrew-miller", "seed" : 2} ],
+        [ {"name" : "Erik Zettersten", "id" : "erik-zettersten", "seed" : 1, "score" : 47 }, {"name" : "Andrew Miller", "id" : "andrew-miller", "seed" : 2} ],
         [ {"name" : "James Coutry", "id" : "james-coutry", "seed" : 3}, {"name" : "Sam Merrill", "id" : "sam-merrill", "seed" : 4}],
         [ {"name" : "Anothy Hopkins", "id" : "anthony-hopkins", "seed" : 5}, {"name" : "Everett Zettersten", "id" : "everett-zettersten", "seed" : 6} ],
         [ {"name" : "John Scott", "id" : "john-scott", "seed" : 7}, {"name" : "Teddy Koufus", "id" : "teddy-koufus", "seed" : 8}],
@@ -85,6 +159,8 @@ $page->appendContent(<<<HTML
 
     // initializer
     $(".my_gracket").gracket({ src : win.TestData });
+
+    */
 
   })(window, document, jQuery);
 </script>

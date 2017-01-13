@@ -9,14 +9,14 @@ class Equipe{
 	protected $refClub = null;
 	protected $idCat = null;
 	protected $name = null;
-	/* public function Equipe($idEquipe, $idCoach, $refClub, $idCat, $name) {
+
+	/* public function Equipe($idEquipe, $idCoach, $refClub, $idCat) {
 		$this->idEquipe = $idEquipe;
 		$this->idCoach = $idCoach;
 		$this->refClub = $refClub;
 		$this->idCat = $idCat;
-		$this->name = $name;
-	}
-*/
+	}*/
+
 	public function getIdEquipe(){
 		return $this->idEquipe;
 	}
@@ -49,18 +49,6 @@ class Equipe{
 		$this->name = $name;
 	}
 
-	public static function getAllEquipes(){
-		$stmt = myPDO::getInstance()->prepare(<<<SQL
-		SELECT *
-		FROM `equipe`
-		ORDER BY 1
-SQL
-	);
-		$stmt->execute();
-		$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
-				return $stmt->fetchAll();
-}
-
 	public static function createFromId($idEquipe){
      $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idEquipe, idCoach, refClub, idCat
@@ -71,9 +59,17 @@ SQL
         $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
         $stmt->execute(array($idEquipe)) ;
         if (($object = $stmt->fetch()) !== false) {
+					$stmt = myPDO::getInstance()->prepare(<<<SQL
+		             SELECT nom
+		             FROM `club`
+		             WHERE refClub = ?
+SQL
+		         ) ;
+						 $stmt->execute(array($object->getRefClub())) ;
+						 $club = $stmt->fetch();
+						$object->name = $club['nom'] . " - " . $object->idCat ;
             return $object ;
         }
-        $this->name = $this->refClub . $this->idCat ;
         throw new Exception('Equipe non trouvée !') ;
     }
 
@@ -106,6 +102,21 @@ SQL
             $this->idEquipe = myPDO::getInstance()->lastInsertId() ;
     }
 
-
+		public static function getAll(){
+        $stmt = myPDO::getInstance()->prepare(<<<SQL
+            SELECT idEquipe, idCoach, equipe.refClub, idCat
+            FROM equipe
+						WHERE idEquipe != 0
+SQL
+        ) ;
+        $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+        $stmt->execute() ;
+        $res = array();
+        while (($object = $stmt->fetch()) !== false) {
+            $res[] = $object ;
+        }
+        return $res;
+        throw new Exception('Pas d\'Equipe !') ;
+    }
 
 }

@@ -15,7 +15,7 @@ if (isset($_SESSION['login'])) {
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idMembre, nom, prnm
             FROM membre
-            WHERE Type = "Coach"
+            WHERE Type = "Coach" AND IdMembre != 0
 SQL
 );
         $stmt->execute(array()) ;

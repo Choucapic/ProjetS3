@@ -14,7 +14,7 @@ if (isset($_SESSION['login'])) {
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
 						SELECT idEquipe, nom, idCat
 						FROM equipe, club
-						WHERE equipe.refClub = club.refClub
+						WHERE equipe.refClub = club.refClub AND idEquipe != 0
 SQL
 );
 				$stmt->execute(array()) ;

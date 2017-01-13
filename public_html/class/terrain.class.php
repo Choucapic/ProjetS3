@@ -60,7 +60,7 @@ SQL
 
 	public function save(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
-                REPLACE INTO `Club`(`idTerrain`,`interieur`)
+                REPLACE INTO `terrain`(`idTerrain`,`interieur`)
                                VALUES (:idTerrain,:interieur)
 SQL
 );

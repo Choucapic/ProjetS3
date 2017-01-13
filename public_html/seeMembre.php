@@ -29,7 +29,7 @@ $HTML = '<ul class="collapsible" data-collapsible="expandable">';
       $stmt = myPDO::getInstance()->prepare(<<<SQL
               SELECT idMembre, nom, prnm, numTel
               FROM membre
-              WHERE Type = '{$type}'
+              WHERE Type = '{$type}' AND idMembre != 0
 SQL
 );
       $stmt->execute(array()) ;

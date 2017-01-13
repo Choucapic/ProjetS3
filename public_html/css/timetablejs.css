@@ -59,7 +59,7 @@
 
 .timetable aside li,
 .timetable time li {
-    height: 46px
+    height: 100px
 }
 
 .timetable section {
@@ -97,7 +97,7 @@
 }
 
 .timetable section header li:not(:last-of-type) {
-    width: 96px
+    width: 200px
 }
 
 .timetable section header li .time-label {
@@ -151,7 +151,7 @@
 }
 
 .timetable ul.room-timeline li:first-child .time-entry {
-    height: 44px
+    height: 100px
 }
 
 .timetable ul.room-timeline li:after,
@@ -179,7 +179,7 @@
 .timetable .time-entry {
     background-color: #EC6A5E;
     transition: 200ms background-color;
-    height: 45px;
+    height: 100px;
     display: block;
     position: absolute;
     z-index: 2;

@@ -1,5 +1,6 @@
 <?php
 require_once 'mypdo.include.php';
+include_once 'plage.class.php';
 
 class Match{
 
@@ -21,7 +22,9 @@ class Match{
 
 	private $idPlage = null;
 
-/*	public function Match($idMatch, $idTerrain, $idLocal, $idVisiteur, $scoreLocal, $scoreVisiteur, $idArbitre1, $idArbitre2, $idPlage) {
+	private $idNextMatch = null;
+
+public function Match($idMatch = '', $idTerrain = '', $idLocal = '', $idVisiteur = '', $scoreLocal = '', $scoreVisiteur = '', $idArbitre1 = '', $idArbitre2 = '', $idPlage = '', $idNextMatch = '') {
 			$this->idMatch = $idMatch;
 			$this->idTerrain = $idTerrain;
 			$this->idLocal = $idLocal;
@@ -31,19 +34,24 @@ class Match{
 			$this->idArbitre1 = $idArbitre1;
 			$this->idArbitre2 = $idArbitre2;
 			$this->idPlage = $idPlage;
+			$this->idNextMatch = $idNextMatch;
 		}
-*/
 
-		public static function recursiveMatch($matchs, $id) {
+
+		public static function recursiveMatch($matchs, $id, &$plage, $idTerrain, $hDeb, $hFin) {
 			 $result = array();
 			 $nombreMatchs = count($matchs);
 			 for ($i = 0; $i < $nombreMatchs; $i = $i+2) {
-		     array_push($result, new Match($id, 1, $matchs[$i]->isWinner(), $matchs[$i+1]->isWinner(), 1, 0, 1, 2, 'Plage'));
+				 $plage = Plage::createFromId($plage)->getNextPlage($hDeb, $hFin, 30);
+				 $matchs[$i]->setIdNextMatch($id);
+				 $matchs[$i+1]->setIdNextMatch($id);
+		     array_push($result, new Match($id, $idTerrain, $matchs[$i]->isWinner(), $matchs[$i+1]->isWinner(), 0, 0, 6, 6, $plage, -1));
 				 $id++;
 			 }
 			 $nombreMatchs /= 2;
 			 if ($nombreMatchs > 1) {
-				 $newMatchs = Match::recursiveMatch($result, $id);
+				 $plage = Plage::createFromId($plage)->getNextPlage($hDeb, $hFin, 30);
+				 $newMatchs = Match::recursiveMatch($result, $id, $plage, $idTerrain, $hDeb, $hFin);
 				 foreach ($newMatchs as $newMatch) {
 					 array_push($result, $newMatch);
 				 }
@@ -84,6 +92,14 @@ class Match{
 		return $this->idVisiteur;
 	}
 
+	public function getScoreLocal (){
+		return $this->scoreLocal;
+	}
+
+	public function getScoreVisiteur (){
+		return $this->scoreVisiteur;
+	}
+
 	public function setArbitre1($idArbitre1){
 		$this->idArbitre1 = $idArbitre1;
 	}
@@ -108,9 +124,17 @@ class Match{
 		return $this->idPlage;
 	}
 
+	public function setIdNextMatch($idNextMatch){
+		$this->idNextMatch = $idNextMatch;
+	}
+
+	public function getIdNextMatch($idNextMatch){
+		return $this->idNextMatch;
+	}
+
 	public function isWinner() {
 		if ($this->scoreLocal == $this->scoreVisiteur) {
-			$result = ($this->scoreLocal == 0 && $this->scoreVisiteur == 0) ? 'TBD' : 'Equality';
+			$result = ($this->scoreLocal == 0 && $this->scoreVisiteur == 0) ? 0 : 0;
 		} else {
 			$result = ($this->scoreLocal > $this->scoreVisiteur) ? $this->idLocal : $this->idVisiteur;
 		}
@@ -125,20 +149,20 @@ class Match{
 SQL
 	);
 		$stmt->execute();
-	 	$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__);
+	 	$stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,__CLASS__);
         return $stmt->fetchAll();
 }
 
 
 	public static function createFromId($idMatch){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL
-            SELECT idMatch, idTerrain, idLocal, idVisiteur, idArbitre1, idArbitre2, idPlage
+            SELECT idMatch, idTerrain, idLocal, idVisiteur, scoreLocal, scoreVisiteur, idArbitre1, idArbitre2, idPlage, idNextMatch
             FROM `match`
             WHERE idMatch = ?
 SQL
         ) ;
         $stmt->execute(array($idMatch)) ;
-				$stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
+				$stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE,__CLASS__) ;
         if (($object = $stmt->fetch()) !== false) {
             return $object ;
         }
@@ -162,19 +186,19 @@ SQL
 	public function save(){
 		$stmt = myPDO::getInstance()->prepare(<<<SQL
                 REPLACE INTO `Match`(`idMatch`,`idTerrain`, `idLocal`,
-									 `idVisiteur`, `idArbitre1`,`idArbitre2`, `idPlage`)
-                               VALUES (:idMatch,:name, :idLocal,:idVisiteur, :idArbitre1,
-                                  :idArbitre2,
-                                  :idPlage)
+									 `idVisiteur`,`scoreLocal`, `scoreVisiteur`, `idArbitre1`,`idArbitre2`, `idPlage`, `idNextMatch`)
+                               VALUES (:idMatch, :idTerrain, :idLocal, :idVisiteur, :scoreLocal, :scoreVisiteur, :idArbitre1, :idArbitre2, :idPlage, :idNextMatch)
 SQL
 );
             $stmt->execute(array(':idMatch' => $this ->idMatch,
-                                 ':name' => $this -> name,
+																 ':idTerrain' => $this ->idTerrain,
                                  ':idLocal' => $this ->idLocal,
                                  ':idVisiteur' => $this ->idVisiteur,
+																 ':scoreLocal' => $this ->scoreLocal,
+																 ':scoreVisiteur' => $this ->scoreVisiteur,
                                  ':idArbitre1' => $this ->idArbitre1,
                                  ':idArbitre2' => $this ->idArbitre2,
-                                 ':idPlage' => $this ->idPlage));
-            $this->idMatch = myPDO::getInstance()->lastInsertId() ;
+                                 ':idPlage' => $this ->idPlage,
+															   ':idNextMatch' => $this ->idNextMatch));
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once 'class/match.class.php';
 require_once 'class/equipe.class.php';
 require_once 'class/webpage.class.php';
@@ -30,7 +33,7 @@ foreach(Match::getAllMatchs() as $match){
     $page->appendContent(<<<HTML
       timetable.addEvent('{$eq1->getName()} VS {$eq2->getName()}', 'Terrain {$match->getIdTerrain()}',new Date({$plage->getDeb()}),new Date({$plage->getFin()}));
 HTML
-);  
+);
 }
 $page->appendContent(<<<HTML
       var renderer = new Timetable.Renderer(timetable);

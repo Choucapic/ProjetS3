@@ -18,32 +18,42 @@ class Plage{
       $this->hDeb = $hDeb;
       $this->hFin = $hFin;
   }*/
-/*
-  public function getNextPlage($hLimiteDeb, $hLimiteFin, $temps) {
-    $hLimiteDeb = intval(substr($hLimiteDeb, 0, 2));
-    $hLimiteFin = intval(substr($hLimiteFin, 0, 2));
+
+  public function getNextPlage($timeLimiteDeb, $timeLimiteFin, $temps, $id=-1) {
+    if ($id != -1) $this->idPlage = $id;
+    $hLimiteDeb = intval(substr($timeLimiteDeb, 0, 2));
+    $hLimiteFin = intval(substr($timeLimiteFin, 0, 2));
     $hPlage = intval(substr($this->hFin, 0, 2));
     $mPlage = intval(substr($this->hFin, 3, 5));
+    if ($hPlage >= $hLimiteFin) {
+      $this->hFin = $timeLimiteDeb;
+      $hPlage = $hLimiteDeb;
+      $mPlage = 0;
+      $this->jour += 1;
+    }
     if ($mPlage + $temps >= 60) {
       $mPlage = ($mPlage + $temps)%60;
       $hPlage = $hPlage + 1;
       if ($hPlage >= $hLimiteFin) {
+        $this->hFin = $timeLimiteDeb;
         $hPlage = $hLimiteDeb;
-        $mPlage = 0;
+        $mPlage = 0 + $temps;
         $this->jour += 1;
       }
     } else {
       $mPlage = $mPlage + $temps;
     }
+    $newIdPlage = $this->idPlage + 1;
     $newHFin = $hPlage . ":" . $mPlage . ":00";
     $stmt = myPDO::getInstance()->prepare(<<<SQL
-           INSERT INTO `plage` ('idPlage', 'jour', 'hDeb', 'hFin')
-           VALUES ('{$this->idPlage+1}', '{$this->jour}', '{this->hFin}', '{$newHFin}')
+           INSERT INTO `plage` (`idPlage`, `jour`, `hDeb`, `hFin`)
+           VALUES ('{$newIdPlage}', '{$this->jour}', '{$this->hFin}', '{$newHFin}')
 SQL
        ) ;
+    $stmt->execute();
     return $this->idPlage+1;
   }
-*/
+
 
     public static function createFromId($idPlage){
 		 $stmt = myPDO::getInstance()->prepare(<<<SQL

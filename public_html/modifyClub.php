@@ -70,8 +70,11 @@ CSS
 				<input type="hidden" name="type" value="modifyClub"/>
 			</div>
 			<div class="btn-auth">
+			<a class="btn red darken-3 waves-effect waves-light" id="delCLubButton" onclick="if (confirm('Voulez vous vraiment supprimer ce Club ?')) window.location.href='script.php?type=delClub&id={$_GET['id']}';" name="delete">
+				Supprimer <i class="material-icons right">clear</i>
+			</a>
 				<button class="btn blue darken-3 waves-effect waves-light" id="insMembreButton" type="submit" name="submit">
-					Inscrire <i class="material-icons right">send</i>
+					Modifier <i class="material-icons right">send</i>
 				</button>
 			</div>
 		</form>

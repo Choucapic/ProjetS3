@@ -180,8 +180,37 @@ HTML
 
             case 'Organisateur':
             $menuType = '
-              <li><a class="waves-effect" href="../equipe.php"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion équipes</a></li>
-              <li><a class="waves-effect" href="../matchs.php"><i class="fa fa-empire fa-2x" aria-hidden="true"></i>Gestion des matchs</a></li>
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-users fa-2x" aria-hidden="true"></i>Gestion des équipes
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="insEquipe.php" class="waves-effect">Inscrire une équipe</a>
+                  <a href="seeEquipe.php" class="waves-effect">Voir les équipes</a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-id-card-o fa-2x" aria-hidden="true"></i>Gestion des Matchs
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="seeMatch.php" class="waves-effect">Voir les matchs</a>
+                  <a href="tournament.php" class="waves-effect">Créer un tournoi</a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-home fa-2x" aria-hidden="true"></i>Gestion des clubs
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="insClub.php" class="waves-effect">Inscrire un club</a>
+                  <a href="seeClub.php" class="waves-effect">Voir les clubs</a>
+                </div>
+              </li>
+            </ul>
             ';
             break;
             case 'Arbitre':
@@ -238,6 +267,16 @@ HTML
                 <div class="collapsible-body blue darken-2 center">
                   <a href="insClub.php" class="waves-effect">Inscrire un club</a>
                   <a href="seeClub.php" class="waves-effect">Voir les clubs</a>
+                </div>
+              </li>
+
+              <li>
+                <div class="collapsible-header waves-effect">
+                  <i class="fa fa-id-card-o fa-2x" aria-hidden="true"></i>Gestion des Matchs
+                </div>
+                <div class="collapsible-body blue darken-2 center">
+                  <a href="seeMatch.php" class="waves-effect">Voir les matchs</a>
+                  <a href="tournament.php" class="waves-effect">Créer un tournoi</a>
                 </div>
               </li>
             </ul>

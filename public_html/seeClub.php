@@ -14,6 +14,7 @@ if (isset($_SESSION['login'])) {
     $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT refClub, nom
             FROM club
+						WHERE refClub != 0
 SQL
 );
     $stmt->execute(array()) ;

@@ -8,13 +8,13 @@ class Categorie{
 	private $tpsJeu = null;
 
 	private $terrain = null;
-/*
-	public function Categorie($idCat, $tpsJeu, $terrain) {
+
+	/*public function Categorie($idCat, $tpsJeu, $terrain) {
 		$this->idCat = $idCat;
 		$this->tpsJeu = $tpsJeu;
 		$this->terrain = $terrain;
-	}
-*/
+	}*/
+
 
 	public function setIdCat($idCat){
 		$this->idCat = $idCat;
@@ -86,12 +86,13 @@ SQL
         $stmt = myPDO::getInstance()->prepare(<<<SQL
             SELECT idCat, tpsJeu, terrain
             FROM Categorie
+						WHERE idCat != ' '
 SQL
         ) ;
         $stmt->setFetchMode(PDO::FETCH_CLASS,__CLASS__) ;
-        $stmt->execute(array($idCat)) ;
+        $stmt->execute() ;
         $res = array();
-        if (($object = $stmt->fetch()) !== false) {
+        while (($object = $stmt->fetch()) !== false) {
             $res[] = $object ;
         }
         return $res;

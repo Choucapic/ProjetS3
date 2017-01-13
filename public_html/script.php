@@ -5,25 +5,136 @@ session_start();
 include_once 'class/webpage.class.php';
 include_once 'class/club.class.php';
 include_once 'class/mypdo.include.php';
+include_once 'class/categorie.class.php';
+include_once 'class/match.class.php';
+include_once 'class/plage.class.php';
+include_once 'class/equipe.class.php';
 
-/* -------------------- Déconnexion -------------------- */
 if (isset($_GET['type'])) {
-  if ($_GET['type'] == 'disconnection') {
-    $pageName = 'Déconnexion';
-    if (isset($_SESSION['login'])) {
-      $error = false;
-      $message = 'Vous vous êtes bien déconnecté, vous allez être redirigé vers l\'accueil';
+  switch ($_GET['type']) {
+     /* -------------------- Déconnexion -------------------- */
+     case 'disconnection' :
+      $pageName = 'Déconnexion';
+      if (isset($_SESSION['login'])) {
+        $error = false;
+        $message = 'Vous vous êtes bien déconnecté, vous allez être redirigé vers l\'accueil';
 
-      $_SESSION = array();
+        $_SESSION = array();
 
-      session_destroy();
-    } else {
-      $error = true;
-      $message = 'Vous n\'êtes pas connecté, vous allez être redirigé vers l\'accueil';
-    }
-    $time = 3;
-    $url = 'index';
-  } else {
+        session_destroy();
+      } else {
+        $error = true;
+        $message = 'Vous n\'êtes pas connecté, vous allez être redirigé vers l\'accueil';
+      }
+      $time = 3;
+      $url = 'index';
+      break;
+    /* -------------------- Supprimer un Membre -------------------- */
+    case 'delMembre' :
+      $pageName = "Supprimer un membre";
+      if (isset($_SESSION['login'])) {
+        if ($_SESSION['type'] == 'Administrateur') {
+          if (isset($_GET['id'])) {
+            $stmt = myPDO::getInstance()->prepare(<<<SQL
+                   DELETE FROM `membre`
+                   WHERE idMembre = {$_GET['id']}
+SQL
+               ) ;
+            $stmt->execute();
+            $error = false;
+            $message = 'Le membre a bien été supprimé, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeMembre';
+          } else {
+            $error = true;
+            $message = 'Problème de paramètre, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeMembre';
+          }
+        } else {
+          $error = true;
+          $message = 'Vous n\'avez pas les droits requis, vous allez être redirigé vers l\'accueil';
+          $time = 5;
+          $url = 'index';
+        }
+      } else {
+        $error = true;
+        $message = 'Vous n\'êtes pas connecté, vous allez être redirigé vers l\'accueil';
+        $time = 5;
+        $url = 'index';
+      }
+      break;
+    /* -------------------- Supprimer une Equipe -------------------- */
+    case 'delEquipe' :
+      $pageName = "Supprimer une équipe";
+      if (isset($_SESSION['login'])) {
+        if ($_SESSION['type'] == 'Administrateur') {
+          if (isset($_GET['id'])) {
+            $stmt = myPDO::getInstance()->prepare(<<<SQL
+                   DELETE FROM `equipe`
+                   WHERE idEquipe = {$_GET['id']}
+SQL
+               ) ;
+            $stmt->execute();
+            $error = false;
+            $message = 'L\'Equipe a bien été supprimé, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeEquipe';
+          } else {
+            $error = true;
+            $message = 'Problème de paramètre, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeEquipe';
+          }
+        } else {
+          $error = true;
+          $message = 'Vous n\'avez pas les droits requis, vous allez être redirigé vers l\'accueil';
+          $time = 5;
+          $url = 'index';
+        }
+      } else {
+        $error = true;
+        $message = 'Vous n\'êtes pas connecté, vous allez être redirigé vers l\'accueil';
+        $time = 5;
+        $url = 'index';
+      }
+      break;
+    /* -------------------- Supprimer un Club -------------------- */
+    case 'delClub' :
+      $pageName = "Supprimer un club";
+      if (isset($_SESSION['login'])) {
+        if ($_SESSION['type'] == 'Administrateur') {
+          if (isset($_GET['id'])) {
+            $stmt = myPDO::getInstance()->prepare(<<<SQL
+                   DELETE FROM `club`
+                   WHERE refClub = {$_GET['id']}
+SQL
+               ) ;
+            $stmt->execute();
+            $error = false;
+            $message = 'Le Club a bien été supprimé, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeEquipe';
+            } else {
+            $error = true;
+            $message = 'Problème de paramètre, vous allez être redirigé automatiquement';
+            $time = 5;
+            $url = 'seeEquipe';
+          }
+        } else {
+          $error = true;
+          $message = 'Vous n\'avez pas les droits requis, vous allez être redirigé vers l\'accueil';
+          $time = 5;
+          $url = 'index';
+        }
+      } else {
+        $error = true;
+        $message = 'Vous n\'êtes pas connecté, vous allez être redirigé vers l\'accueil';
+        $time = 5;
+        $url = 'index';
+      }
+      break;
+    default :
     $error = true;
     $message = 'Problème de paramètre, vous allez être redirigé vers l\'accueil';
     $time = 5;
@@ -330,6 +441,132 @@ SQL
         $message = 'Problème de modification de Club <br> Vous allez être redirigé automatiquement';
         $time=5;
       }
+      break;
+    /* -------------------- Modification de Club -------------------- */
+    case 'modifyMatch' :
+      $pageName = 'Modification de Match';
+     if (isset($_POST['idMatch']) && isset($_POST['scoreLocal']) && isset($_POST['scoreVisiteur']) && isset($_POST['idArbitre1']) && isset($_POST['idArbitre2']) && isset($_POST['idNextMatch'])) {
+        if ($_POST['idMatch'] != '' && $_POST['scoreLocal'] != '' && $_POST['scoreVisiteur'] != '' && $_POST['idArbitre1'] != '' && $_POST['idArbitre2'] != '' && $_POST['idNextMatch'] != '') {
+          $stmt = myPDO::getInstance()->prepare(<<<SQL
+                UPDATE `match`
+                SET scoreLocal = '{$_POST['scoreLocal']}', scoreVisiteur = '{$_POST['scoreVisiteur']}', idArbitre1 = '{$_POST['idArbitre1']}', idArbitre2 = '{$_POST['idArbitre2']}'
+                WHERE idMatch = {$_POST['idMatch']}
+SQL
+  );
+          $stmt->execute();
+          if ($_POST['idNextMatch'] != -1) {
+          $match = Match::createFromId($_POST['idMatch']);
+          $nextMatch = Match::createFromId($_POST['idNextMatch']);
+          if ($nextMatch->getIdLocal() == 0) {
+            $nextMatch->setIdLocal($match->isWinner());
+          } else {
+            $nextMatch->setIdVisiteur($match->isWinner());
+          }
+          $nextMatch->save();
+          }
+          $error = false;
+          $url="planning";
+          $message = 'Le Match a bien été modifié, <br> Vous allez être redirigé automatiquement';
+          $time=25;
+        } else {
+          $error = true;
+          $url="seeMatch";
+          $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+          $time=5;
+      }
+      } else {
+        $error = true;
+        $url="seeMatch";
+        $message = 'Problème de modification de Match <br> Vous allez être redirigé automatiquement';
+        $time=5;
+      }
+        break;
+    /* -------------------- Nouveau Tournoi -------------------- */
+    case 'newTournament' :
+    if (isset($_POST['categories']) && isset($_POST['hDeb']) && isset($_POST['hFin'])) {
+      if (count($_POST['categories']) != 0 && $_POST['hDeb'] != '' && $_POST['hFin'] != '') {
+      $pageName = 'Nouveau Tournoi';
+
+    // On récupère les variables
+    $postCategories = $_POST['categories'];
+    $postHDeb = $_POST['hDeb'].':00';
+    $postHFin = $_POST['hFin'].':00';
+
+    // On nettoie la table Match
+    $stmt = myPDO::getInstance()->prepare(<<<SQL
+           DELETE FROM `match`
+SQL
+       ) ;
+    $stmt->execute();
+
+    // On nettoie la table Plage
+    $stmt = myPDO::getInstance()->prepare(<<<SQL
+           DELETE FROM `plage`
+SQL
+       ) ;
+    $stmt->execute();
+
+    // On crée une plage "vide" qui correspond à l'heure de début de tournoi dans la journée
+    $stmt = myPDO::getInstance()->prepare(<<<SQL
+           INSERT INTO `plage` (`idPlage`, `jour`, `hDeb`, `hFin`)
+           VALUES ('1', '1', '{$postHDeb}', '{$postHDeb}')
+SQL
+       ) ;
+    $stmt->execute();
+    $plage = Plage::createFromId(1)->getNextPlage($postHDeb, $postHFin, 30);
+   $categories = array();
+    foreach ($postCategories as $categorie) {
+      array_push($categories, Categorie::createFromId($categorie));
+    }
+    $equipes = Equipe::getAll();
+    $idMatchs = 0;
+    $HTML = "";
+    foreach ($categories as $categorie) {
+      $equipesCat = array();
+      $matchs = array();
+     foreach ($equipes as $equipe) {
+       if ($equipe->getIdCat() == $categorie->getIdCat()) {
+         array_push($equipesCat, $equipe);
+       }
+     }
+     if (count($equipesCat) != 0) {
+     if ($idMatchs != 0) $plage = Plage::createFromId(1)->getNextPlage($postHDeb, $postHFin, 30, $plage);
+     $nombreEquipes = count($equipesCat);
+     if ($nombreEquipes%2 == 0 && $nombreEquipes%3 != 0) {
+       for ($i = 0; $i < $nombreEquipes; $i = $i+2) {
+         array_push($matchs, new Match($idMatchs, $categorie->getTerrain(), $equipesCat[$i]->getIdEquipe(), $equipesCat[$i+1]->getIdEquipe(), 0, 0, 6, 6, $plage, -1));
+         $plage = Plage::createFromId($plage)->getNextPlage($postHDeb, $postHFin, 30);
+         $idMatchs++;
+       }
+       $nombreEquipes /= 2;
+       $newMatchs = Match::recursiveMatch($matchs, $idMatchs, $plage, $categorie->getTerrain(), $postHDeb, $postHFin);
+       $idMatchs += count($newMatchs) + 1;
+       foreach ($newMatchs as $newMatch) {
+         array_push($matchs, $newMatch);
+       }
+       foreach ($matchs as $match) {
+         $match->save();
+       }
+     }
+
+    }
+  }
+    $error = false;
+    $url = "planning";
+    $message = 'Le tournoi a bien été créé';
+    $time = 3;
+  } else {
+    $error = true;
+    $url="tournament";
+    $message = 'Un des champs est vide <br> Vous allez être redirigé automatiquement';
+    $time=5;
+}
+} else {
+  $error = true;
+  $url="tournament";
+  $message = 'Problème de création de tournoi <br> Vous allez être redirigé automatiquement';
+  $time=5;
+}
       break;
     default :
     $error = true;
