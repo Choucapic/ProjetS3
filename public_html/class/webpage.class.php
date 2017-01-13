@@ -341,7 +341,6 @@ HTML
               </li>
             </ul>
             <li><div class="divider"></div></li>
-            <li><a class="subheader center">Subheader</a></li>
             {$menuType}
         </ul>
         <div class="row fixed blue darken-3 menu hide-on-large-only">
